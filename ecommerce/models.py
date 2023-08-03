@@ -17,9 +17,6 @@ class ModelBase(models.Model):
     class Meta:
         abstract = True
         
-    
-    
-
 class Category(ModelBase):
     name = models.CharField(max_length=200)
 
@@ -31,8 +28,19 @@ class Subcategory(ModelBase):
     name = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
     def __str__(self):
-            return self.name
-        
+            return self.name     
+
+    
+class Client(ModelBase):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
+    def __str__(self):
+        return self.user.get_full_name()
+    
+class Location(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='locations')
+
+class PayMethod(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='pay_methods')
 
 class Product(ModelBase):
     name = models.CharField(max_length=200)
@@ -46,25 +54,7 @@ class Product(ModelBase):
     def __str__(self):
         return self.name
     
-
-
-class Client(ModelBase):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
-    def __str__(self):
-        return self.user.get_full_name()
     
-
-
-
-class Location(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='locations')
-
-class PayMethod(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='pay_methods')
-
-
-
-
 class Cart(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts')
     total = models.PositiveIntegerField(default=0)
@@ -73,14 +63,18 @@ class Cart(ModelBase):
     def __str__(self):
         date_time = self.date_created.strftime('%H:%M %d/%m')
         return f'{self.client} Cart - {date_time}'
-                 
-    
-
-
+       
 class ProductCart(ModelBase):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='carts')
     ammount = models.PositiveSmallIntegerField(default=1)
+    subtotal = models.IntegerField(default=0)
+
+
     
-
-
+    def save(self, *args, **kwargs):
+        if self.ammount != 0:
+            self.subtotal = self.product.price * self.ammount
+        else:
+            self.subtotal = 0
+        super().save(*args, **kwargs)
