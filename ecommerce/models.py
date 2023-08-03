@@ -60,21 +60,53 @@ class Product(ModelBase):
 class Cart(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts')
     total = models.PositiveIntegerField(default=0)
-
+    done = models.BooleanField(default=False)
 
     def __str__(self):
         date_time = self.date_created.strftime('%H:%M %d/%m')
         return f'{self.client} Cart - {date_time}'
     
+class Order(ModelBase):   
+    cart = models.OneToOneField(Cart, related_name="order", on_delete=models.CASCADE)
+    
+    paid = models.BooleanField(default=False)
+    paymethod = models.ForeignKey(PayMethod, on_delete=models.CASCADE, related_name='orders')
+    
+    shipping_address = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='orders', blank=True, null=True)
+    sended = models.BooleanField(default=False)
+    
+    closed = models.BooleanField(default=False)
+    
     def save(self, *args, **kwargs):
-        
-        products = self.products.all()
-        total = 0
-        for product in products:
-            total += product.subtotal
-
-        self.total = total
+        if self.paid == True and self.sended == True:
+            self.closed == True
         super().save(*args, **kwargs)
+
+    @property
+    def products(self):
+        
+        cart_products = self.cart.products.all()
+        products = []
+        for product in cart_products:
+            products.append(product.product)
+        return products
+    
+    
+    @property
+    def total(self):
+        
+        return self.cart.total
+
+# Signal function to create an Order instance when Cart.done is True
+@receiver(post_save, sender=Cart)
+def create_order_on_cart_done(sender, instance, created, **kwargs):
+    if instance.done:
+        # Check if an Order already exists for this Cart
+        try:
+            order = Order.objects.get(cart=instance)
+        except Order.DoesNotExist:
+            # Create a new Order for the Cart
+            order = Order.objects.create(cart=instance)
 
        
 class ProductCart(ModelBase):
