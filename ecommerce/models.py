@@ -70,7 +70,7 @@ class Order(ModelBase):
     cart = models.OneToOneField(Cart, related_name="order", on_delete=models.CASCADE)
     
     paid = models.BooleanField(default=False)
-    paymethod = models.ForeignKey(PayMethod, on_delete=models.CASCADE, related_name='orders')
+    paymethod = models.ForeignKey(PayMethod, on_delete=models.CASCADE, related_name='orders', blank=True, null=True)
     
     shipping_address = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='orders', blank=True, null=True)
     sended = models.BooleanField(default=False)

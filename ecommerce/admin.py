@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from ecommerce.models import Product, ProductCart, Cart, Client, Category, Subcategory, Location, PayMethod
+from ecommerce.models import Product, ProductCart, Cart, Client, Category, Subcategory, Location, PayMethod, Order
 
 
 admin.site.register(Product)
@@ -11,3 +11,4 @@ admin.site.register(Subcategory)
 admin.site.register(Location)
 admin.site.register(PayMethod)
 admin.site.register(Client)
+admin.site.register(Order)
