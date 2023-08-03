@@ -63,6 +63,16 @@ class Cart(ModelBase):
     def __str__(self):
         date_time = self.date_created.strftime('%H:%M %d/%m')
         return f'{self.client} Cart - {date_time}'
+    
+    
+    
+    def save(self, *args, **kwargs):
+        products = self.products.all()
+        for product in products:
+            
+            pass
+        super().save(*args, **kwargs)
+
        
 class ProductCart(ModelBase):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='products')
