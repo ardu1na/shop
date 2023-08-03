@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 
 class ModelBase(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -64,13 +66,14 @@ class Cart(ModelBase):
         date_time = self.date_created.strftime('%H:%M %d/%m')
         return f'{self.client} Cart - {date_time}'
     
-    
-    
     def save(self, *args, **kwargs):
+        
         products = self.products.all()
+        total = 0
         for product in products:
-            
-            pass
+            total += product.subtotal
+
+        self.total = total
         super().save(*args, **kwargs)
 
        
@@ -81,6 +84,9 @@ class ProductCart(ModelBase):
     subtotal = models.IntegerField(default=0)
 
 
+    def __str__(self):
+        date_time = self.date_created.strftime('%H:%M %d/%m')
+        return f'{self.product} ({self.ammount} u.) ${self.subtotal}'
     
     def save(self, *args, **kwargs):
         if self.ammount != 0:
@@ -88,3 +94,15 @@ class ProductCart(ModelBase):
         else:
             self.subtotal = 0
         super().save(*args, **kwargs)
+
+@receiver(post_save, sender=ProductCart)
+@receiver(post_delete, sender=ProductCart)
+def update_cart_total(sender, instance, **kwargs):
+    cart = instance.cart
+    products = cart.products.all()
+    total = 0
+    for product in products:
+        total += product.subtotal
+
+    cart.total = total
+    cart.save()
