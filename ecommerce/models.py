@@ -97,6 +97,8 @@ class Order(ModelBase):
         
         return self.cart.total
 
+
+
 # Signal function to create an Order instance when Cart.done is True
 @receiver(post_save, sender=Cart)
 def create_order_on_cart_done(sender, instance, created, **kwargs):
