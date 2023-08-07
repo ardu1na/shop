@@ -15,12 +15,17 @@ class LoginView(APIView):
             'fields': 'username, password'
         }
         return Response(additional_info)
+    
+    
     def post(self, request):
+        if request.user.is_authenticated:
+            return Response({'error': 'You are already logged in.'}, status=400)
+
         serializer = LoginSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         username = serializer.validated_data['username']
-        password = serializer.validated_data['password']       
+        password = serializer.validated_data['password']
 
         user = authenticate(username=username, password=password)
 
