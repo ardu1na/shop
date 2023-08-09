@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Signup</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <!-- MDB -->
+
+</head>
+<body>
+      <!--Main Navigation-->
+     
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+                                     
+              <!-- Signup Form -->
+              <form id="signup-form">
+                <input type="text" name="username" placeholder="Username" />
+                <input type="password" name="password" placeholder="Password" />
+                <input type="email" name="email" placeholder="Email" />
+                <button type="submit">Sign Up</button>
+              </form>
+
+
+              <!-- Display Area for Results -->
+              <div id="result"></div>
+
+            </div>
+          </div>
+        </div>
+      <!--Main Navigation-->
+
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      document.getElementById('signup-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const formData = new FormData(this);
+          
+          fetch('http://127.0.0.1:8000/signup/', {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => {
+              if (response.ok) {
+                  return response.json();
+              } else if (response.status === 409) {
+                  throw new Error('Username already taken');
+              } else {
+                  throw new Error('Signup failed');
+              }
+          })
+          .then(data => {
+              document.getElementById('result').textContent = 'Signup successful';
+          })
+          .catch(error => {
+              document.getElementById('result').textContent = error.message;
+          });
+      });
+    </script>
+    
+  
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Logout Test</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>Logout Test</h1>
+  
+  <!-- Logout button -->
+  <button id="logout-button">Logout</button>
+  
+
+  <script>
+
+    const token = localStorage.getItem('token');
+
+    // Function to log out the user
+    function logoutUser() {
+      var authToken = 'Token YOUR_AUTH_TOKEN'; // Replace with your actual auth token
+      $.ajax({
+        url: 'http://127.0.0.1:8000/logout/',
+        type: 'POST',
+        headers: {
+            'Authorization': `Token ${token}`
+        },
+        success: function(response) {
+          // Handle successful logout
+          console.log(response.message);
+          // Perform any additional actions, such as displaying a message
+        },
+        error: function(error) {
+          // Handle error
+          console.error('Error logging out:', error);
+        }
+      });
+    }
+  
+    // Attach the logout function to the button click event
+    $('#logout-button').click(logoutUser);
+  </script>
+  
+
+</body>
+</html>
