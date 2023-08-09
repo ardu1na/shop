@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Login</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="css/mdb.min.css" />
+
+</head>
+<body>
+      <!--Main Navigation-->
+  <header>
+    <style>
+      #intro {
+        height: 100vh;
+      }
+
+      /* Height for devices larger than 576px */
+      @media (min-width: 992px) {
+        #intro {
+          margin-top: -58.59px;
+        }
+      }
+
+      .navbar .nav-link {
+        color: #fff !important;
+      }
+    </style>
+
+    <!-- Navbar -->
+    <!-- Navbar -->
+
+    <!-- Background image -->
+    <div id="intro" class="bg-image shadow-2-strong">
+      <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0, 0, 0, 0.8);">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+                                     
+              <!-- Signup Form -->
+              <form id="signup-form">
+                <input type="text" name="username" placeholder="Username" />
+                <input type="password" name="password" placeholder="Password" />
+                <input type="email" name="email" placeholder="Email" />
+                <button type="submit">Sign Up</button>
+              </form>
+
+              <!-- Login Form -->
+              <form id="login-form">
+                <input type="text" name="username" placeholder="Username" />
+                <input type="password" name="password" placeholder="Password" />
+                <button type="submit">Log In</button>
+              </form>
+
+              <!-- Display Area for Results -->
+              <div id="result"></div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Background image -->
+  </header>
+  <!--Main Navigation-->
+
+  <!--Footer-->
+ 
+  <!--Footer-->
+
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+      document.getElementById('signup-form').addEventListener('submit', function(event) {
+          event.preventDefault();
+          const formData = new FormData(this);
+          
+          fetch('http://127.0.0.1:8000/signup/', {
+              method: 'POST',
+              body: formData
+          })
+          .then(response => response.json())
+          .then(data => {
+              document.getElementById('result').textContent = 'Signup successful';
+          })
+          .catch(error => {
+              document.getElementById('result').textContent = 'Signup failed';
+          });
+      });
+  
+      document.getElementById('login-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+        
+        fetch('http://127.0.0.1:8000/login/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                // Token received
+                const token = data.token;
+
+                // Store the token in localStorage or sessionStorage
+                // Here, I'm storing it in localStorage
+                localStorage.setItem('token', token);
+
+                document.getElementById('result').textContent = 'Login successful';
+            } else {
+                document.getElementById('result').textContent = 'Login failed';
+            }
+        })
+        .catch(error => {
+            document.getElementById('result').textContent = 'Login failed';
+        });
+    });
+  </script>
+  
+</body>
+</html>

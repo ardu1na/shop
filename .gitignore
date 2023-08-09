@@ -11,3 +11,7 @@ env/
 media/
 frontend/
 .vscode
+templates/users/css/
+templates/users/js/
+templates/users/src/
+templates/users/img/

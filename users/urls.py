@@ -1,7 +1,11 @@
-from django.urls import path
-from users.views import LoginView, LogoutView
+from django.urls import re_path
+
+from users import views
 
 urlpatterns = [
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    re_path('signup', views.signup),
+    re_path('login', views.login),
+    re_path('logout', views.logout),
+    re_path('test_token', views.test_token),
+
 ]

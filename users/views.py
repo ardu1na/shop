@@ -1,55 +1,51 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from users.serializers import LoginSerializer
-from django.contrib.auth import authenticate, login, logout
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.authtoken.models import Token
 
-class LoginView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    def get(self, request):
-        additional_info = {
-            'message': 'This is the login endpoint.',
-            'details': 'You can use POST method to login the user.',
-            'important_note': 'Do not expose this endpoint to the public. It should be used only internally by the front-end application.',
-            'fields': 'username, password'
-        }
-        return Response(additional_info)
+from users.serializers import UserSerializer
+
+@api_view(['POST'])
+def signup(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        user = User.objects.get(username=request.data['username'])
+        user.set_password(request.data['password'])
+        user.save()
+        token = Token.objects.create(user=user)
+        return Response({'token': token.key, 'user': serializer.data})
+    return Response(serializer.errors, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def login(request):
+    user = get_object_or_404(User, username=request.data['username'])
+    if not user.check_password(request.data['password']):
+        return Response("missing user", status=status.HTTP_404_NOT_FOUND)
+    token, created = Token.objects.get_or_create(user=user)
+    serializer = UserSerializer(user)
+    return Response({'token': token.key, 'user': serializer.data})
+
+
+
+@api_view(['POST'])
+def logout(request):
+    user = get_object_or_404(User, username=request.data['username'])
+    token = get_object_or_404(Token, user=user)
+    token.delete()
     
-    
-    def post(self, request):
-        if request.user.is_authenticated:
-            return Response({'error': 'You are already logged in.'}, status=400)
-
-        serializer = LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        username = serializer.validated_data['username']
-        password = serializer.validated_data['password']
-
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return Response({'message': 'Successfully logged in!'})
-        else:
-            return Response({'error': 'Invalid credentials. Login failed.'}, status=400)
+    return Response("bye!")
 
 
-class LogoutView(APIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
-    permission_classes = [IsAuthenticated]
-    
-    def get(self, request):
-        additional_info = {
-            'message': 'This is the logout endpoint.',
-            'details': 'You can use POST method to logout the user.',
-            'important_note': 'Do not expose this endpoint to the public. It should be used only internally by the front-end application.',
-            'fields': 'username'
-        }
-        return Response(additional_info)
-    def post(self, request):
-        logout(request)
-        return Response({'message': 'Successfully logged out!'})
-    
-    
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def test_token(request):
+    return Response("passed!")
