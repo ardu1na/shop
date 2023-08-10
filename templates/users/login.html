@@ -104,14 +104,11 @@
 
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
-     
-  
       document.getElementById('login-form').addEventListener('submit', function(event) {
         event.preventDefault();
         const formData = new FormData(this);
-        
+    
         fetch('http://127.0.0.1:8000/login/', {
             method: 'POST',
             body: formData
@@ -121,8 +118,9 @@
             if (data.token) {
                 const token = data.token;
                 localStorage.setItem('token', token);
-
-                document.getElementById('result').textContent = 'Login successful!';
+    
+                // Redirect to the index page
+                window.location.href = '../index.html'; // Replace 'index.html' with your desired page
             } else {
                 document.getElementById('result').textContent = 'Login failed';
             }
@@ -130,8 +128,9 @@
         .catch(error => {
             document.getElementById('result').textContent = 'Login failed';
         });
-    });
-  </script>
+      });
+    </script>
+    
 </body>
 
 </html>

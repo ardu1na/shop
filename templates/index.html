@@ -894,17 +894,16 @@
                     'Authorization': `Token ${token}`
                 }
             });
-            accountNav.innerHTML = '<button class="nav-link text-body " id="logout-button">Logout</button>';
+            accountNav.innerHTML = '<button class="btn nav-link text-body " id="logout-button">Logout</button>';
     
                 
             } else {
-                accountNav.innerHTML = '<a class="nav-link text-body" href="../users/login.html">Log in</a>';
+                accountNav.innerHTML = '<a class="nav-link text-body" href="./users/login.html">Log in</a>';
             }
     </script>
 
 
     <script>
-        const token = localStorage.getItem('token');
       
         // Function to log out the user
         function logoutUser() {
@@ -921,7 +920,7 @@
               // Remove the token from local storage
               localStorage.removeItem('token');
       
-              // Perform any additional actions, such as redirecting to a logout page
+              location.reload();
             },
             error: function(error) {
               // Handle error
@@ -933,7 +932,6 @@
         // Attach the logout function to the button click event
         $('#logout-button').click(logoutUser);
       </script>
-
 
 </body>
 

@@ -465,7 +465,7 @@
               // Remove the token from local storage
               localStorage.removeItem('token');
       
-              // Perform any additional actions, such as redirecting to a logout page
+              location.reload();
             },
             error: function(error) {
               // Handle error
