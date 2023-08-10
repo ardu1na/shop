@@ -11,9 +11,6 @@ env/
 media/
 frontend/
 .vscode
-templates/users/css/
-templates/users/js/
-templates/users/src/
-templates/users/img/
 templates/users/assets/
-templates/oldskool/
+templates/oldskool/assets/
+templates/assets/
