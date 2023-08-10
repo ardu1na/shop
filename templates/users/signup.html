@@ -77,7 +77,11 @@
                       <label class="form-label" for="register-password">Password</label>
                       <input type="password" name="password" class="form-control" id="register-password" placeholder="Enter your password">
                     </div>
+
+                    <div class="d-block text-center text-danger fs-4" id="result"></div>
+
                     <button type="submit" class="btn btn-dark d-block w-100 my-4">Sign Up</button>
+                    
                   </form>
                   <p class="d-block text-center text-muted">Already registered? <a class="text-muted" href="./login.html">Login here.</a></p>
             </div>
@@ -125,7 +129,7 @@
               } else {
                   // Save the token in localStorage
                   localStorage.setItem('token', data.token); // Assuming the token is returned as 'token' in the response JSON
-                  document.getElementById('result').textContent = 'Signup successful';
+                  // TODO ******************* REDIRECT TO NEXT PAGE
               }
           })
           .catch(error => {
