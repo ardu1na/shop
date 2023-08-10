@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Logout Test</title>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <h1>Logout Test</h1>
@@ -10,24 +9,26 @@
   <!-- Logout button -->
   <button id="logout-button">Logout</button>
   
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-
     const token = localStorage.getItem('token');
-
+  
     // Function to log out the user
     function logoutUser() {
-      var authToken = 'Token YOUR_AUTH_TOKEN'; // Replace with your actual auth token
       $.ajax({
         url: 'http://127.0.0.1:8000/logout/',
         type: 'POST',
         headers: {
-            'Authorization': `Token ${token}`
+          'Authorization': `Token ${token}`
         },
         success: function(response) {
           // Handle successful logout
           console.log(response.message);
-          // Perform any additional actions, such as displaying a message
+  
+          // Remove the token from local storage
+          localStorage.removeItem('token');
+  
+          // Perform any additional actions, such as redirecting to a logout page
         },
         error: function(error) {
           // Handle error

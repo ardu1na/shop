@@ -78,11 +78,10 @@
                         </li>
                         <!-- /Navbar Search-->
     
+    
                         <!-- Navbar Login-->
-                        <li class="ms-1 d-none d-lg-inline-block">
-                            <a class="nav-link text-body" href="../users/login.html">
-                                Account
-                            </a>
+                        <li class="ms-1 d-none d-lg-inline-block" id="accountNav">
+                            <!-- Content will be updated dynamically here -->
                         </li>
                         <!-- /Navbar Login-->
     
@@ -426,6 +425,58 @@
     </script>
 
     
+    
+    <script>
+        // JavaScript code to fetch user authentication status from Django API
+        const token = localStorage.getItem('token');
+        const accountNav = document.getElementById('accountNav');
+
+        
+        if (token) {
+            fetch('http://127.0.0.1:8000/test_token/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            });
+            accountNav.innerHTML = '<button class="btn nav-link text-body " id="logout-button">Logout</button>';
+    
+                
+            } else {
+                accountNav.innerHTML = '<a class="nav-link text-body" href="../users/login.html">Log in</a>';
+            }
+    </script>
+
+
+    <script>
+      
+        // Function to log out the user
+        function logoutUser() {
+          $.ajax({
+            url: 'http://127.0.0.1:8000/logout/',
+            type: 'POST',
+            headers: {
+              'Authorization': `Token ${token}`
+            },
+            success: function(response) {
+              // Handle successful logout
+              console.log(response.message);
+      
+              // Remove the token from local storage
+              localStorage.removeItem('token');
+      
+              // Perform any additional actions, such as redirecting to a logout page
+            },
+            error: function(error) {
+              // Handle error
+              console.error('Error logging out:', error);
+            }
+          });
+        }
+      
+        // Attach the logout function to the button click event
+        $('#logout-button').click(logoutUser);
+      </script>
 </body>
 
 </html>
