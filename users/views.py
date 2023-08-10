@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
@@ -14,6 +14,7 @@ from users.serializers import UserSerializer
 
 
 ## TODO ##
+## view for restore password
 # signup with email confirmation
 @api_view(['POST'])
 def signup(request):
