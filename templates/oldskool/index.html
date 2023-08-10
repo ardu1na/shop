@@ -194,15 +194,10 @@
                             
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  We
+                                  Categories                                   
                                 </a>
-                                <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="./category.html">Tops</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">Bottoms</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">Jeans</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">T-Shirts</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">Shoes</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">Accessories</a></li>
+                                <ul class="dropdown-menu" id="categories-container">
+                                  
                                 </ul>
                               </li>
                               <li class="nav-item">
@@ -355,10 +350,6 @@
             <!-- / Swiper Info-->        </section>
         <!--/ Top Banner-->
 
-        <!--test categories api-->
-        <div class="fs-1 m-3" id="categories-container"></div>
-        <!--/ test-->
-        
         
 
         <!-- Featured Brands-->
@@ -900,32 +891,34 @@
     <script src="./assets/js/theme.bundle.js"></script>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
-                // Using the fetch API
+        // Using the fetch API
         fetch('http://127.0.0.1:8000/api/shop/categories')
-        .then(response => response.json())
-        .then(data => {
-        // Call a function to render the data
-        renderCategories(data);
-        })
-        .catch(error => {
-        console.error('Error fetching data:', error);
-        });
-
-
+          .then(response => response.json())
+          .then(data => {
+            // Call a function to render the data
+            renderCategories(data);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+    
         function renderCategories(categories) {
-            const categoriesContainer = document.getElementById('categories-container');
-          
-            categories.forEach(category => {
-              const categoryElement = document.createElement('div');
-              categoryElement.textContent = category.name;
-              categoriesContainer.appendChild(categoryElement);
-            });
-          }
-          
-
-    </script>
+          const categoriesContainer = document.getElementById('categories-container');
+    
+          categories.forEach(category => {
+            const categoryLink = document.createElement('a');
+            categoryLink.className = 'dropdown-item';
+            categoryLink.href = './category.html'; // You can set the actual link here
+            categoryLink.textContent = category.name;
+    
+            const categoryListItem = document.createElement('li');
+            categoryListItem.appendChild(categoryLink);
+            
+            categoriesContainer.appendChild(categoryListItem);
+          });
+        }
+      </script>
 
 
 </body>
