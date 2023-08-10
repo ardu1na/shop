@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
-
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
@@ -10,11 +8,6 @@ class ModelBase(models.Model):
     date_updated = models.DateTimeField(auto_now=True, editable=False)
     date_deleted = models.DateTimeField(editable=False, null=True)
     state = models.BooleanField(default=True)
-    
-    def save(self, *args, **kwargs):
-        if self.state == False:
-            self.date_deleted = timezone.now() 
-        super().save(*args, **kwargs)
     
     class Meta:
         abstract = True
@@ -26,23 +19,17 @@ class Category(ModelBase):
     def __str__(self):
         return self.name
     
+    class Meta:
+        verbose_name_plural = "Categories"
+    
 class Subcategory(ModelBase):
     name = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
     def __str__(self):
             return self.name     
-
     
-class Client(ModelBase):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
-    def __str__(self):
-        return self.user.get_full_name()
-    
-class Location(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='locations')
-
-class PayMethod(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='pay_methods')
+    class Meta:
+        verbose_name_plural = "Subcategories"
 
 class Product(ModelBase):
     name = models.CharField(max_length=200)
@@ -58,6 +45,18 @@ class Product(ModelBase):
     def __str__(self):
         return self.name
     
+    
+class Client(ModelBase):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
+    def __str__(self):
+        return self.user.get_full_name()
+    
+class Location(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='locations')
+
+class PayMethod(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='pay_methods')
+
     
 class Cart(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts')
