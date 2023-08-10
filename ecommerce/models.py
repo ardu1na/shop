@@ -48,9 +48,32 @@ class Product(ModelBase):
     
 class Client(ModelBase):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
-    def __str__(self):
-        return self.user.get_full_name()
+    name = models.CharField(max_length=200, blank=True, null=True)
+    lastname = models.CharField(max_length=200, blank=True, null=True)
+    dob = models.DateField(blank=True, null=True)
     
+    def __str__(self):
+        if self.name and self.lastname:
+            return f'{self.name} {self.lastname}'
+        elif self.name:
+            return f'{self.name}'
+        
+        elif self.lastname:
+            return f'{self.lastname}'
+        else:
+            return self.user.username
+        
+
+# Signal function to create a client
+@receiver(post_save, sender=User)
+def create_client_on_new_user(sender, instance, created, **kwargs):
+    
+        try:
+            client = Client.objects.get(user=instance)
+        except Client.DoesNotExist:
+            # Create a new Order for the Cart
+            client = Client.objects.create(user=instance)
+        
 class Location(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='locations')
 
