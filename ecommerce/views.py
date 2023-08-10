@@ -11,7 +11,18 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 
 from ecommerce.models import Category
-from ecommerce.serializers import CategorySerializer
+from ecommerce.serializers import CategorySerializer, CategoryDetailSerializer
+
+
+@api_view(['GET'])
+def category_detail(request, category_id):
+    try:
+        category = Category.objects.get(pk=category_id)
+        serializer = CategoryDetailSerializer(category)
+        return Response(serializer.data)
+    except Category.DoesNotExist:
+        return Response(status=404)
+
 
 
 @api_view(['GET'])
