@@ -17,6 +17,7 @@ from users.serializers import UserSerializer
 # view for restore password
 # view for profile 
 # signup with email confirmation
+
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data=request.data)

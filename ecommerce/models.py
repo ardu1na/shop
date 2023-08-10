@@ -63,17 +63,14 @@ class Client(ModelBase):
         else:
             return self.user.username
         
-
 # Signal function to create a client
 @receiver(post_save, sender=User)
-def create_client_on_new_user(sender, instance, created, **kwargs):
-    
-        try:
-            client = Client.objects.get(user=instance)
-        except Client.DoesNotExist:
-            # Create a new Order for the Cart
-            client = Client.objects.create(user=instance)
-        
+def create_client_on_new_user(sender, instance, created, **kwargs):    
+    try:
+        client = Client.objects.get(user=instance)
+    except Client.DoesNotExist:
+        client = Client.objects.create(user=instance)
+       
 class Location(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='locations')
 
@@ -120,7 +117,6 @@ class Order(ModelBase):
     def total(self):
         
         return self.cart.total
-
 
 
 # Signal function to create an Order instance when Cart.done is True
