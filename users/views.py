@@ -15,9 +15,6 @@ from users.serializers import UserSerializer
 
 ## TODO ##
 # signup with email confirmation
-# check if the user is already logged in
-# display message if the username or email are already taken
-
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data=request.data)
@@ -65,7 +62,6 @@ class LogoutView(APIView):
         token = get_object_or_404(Token, user=user)
         token.delete()
         return Response({'message': f'Goodbye, {user.username}!'}, status=status.HTTP_200_OK)
-
 
 
 @api_view(['GET'])
