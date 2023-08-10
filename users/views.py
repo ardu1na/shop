@@ -1,7 +1,7 @@
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth import login, logout
+
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
@@ -69,7 +69,7 @@ class LogoutView(APIView):
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def test_token(request):
     return Response("passed!")
