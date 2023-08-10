@@ -129,7 +129,8 @@
               } else {
                   // Save the token in localStorage
                   localStorage.setItem('token', data.token); // Assuming the token is returned as 'token' in the response JSON
-                  // TODO ******************* REDIRECT TO NEXT PAGE
+                  // Redirect to the index page
+                window.location.href = '../index.html'; 
               }
           })
           .catch(error => {
