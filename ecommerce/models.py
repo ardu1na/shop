@@ -46,7 +46,6 @@ class Product(ModelBase):
     def __str__(self):
         return self.name
     
-    
 class Client(ModelBase):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
     def __str__(self):
