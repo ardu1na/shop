@@ -415,10 +415,7 @@
     
 
         } else {
-            // Code to execute if the parameter doesn't exist
-            console.log("No categories, display all products");
-            // Perform alternative actions when the parameter is missing
-        }
+        
         fetch(`${apiBaseUrl}/api/shop/products`)
             .then(response => response.json())
             .then(data => {
@@ -461,7 +458,7 @@
                     `;
             
                     productsContainer.appendChild(productCard);
-                });
+                });}
             }
     </script>
 
