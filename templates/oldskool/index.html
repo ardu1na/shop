@@ -74,33 +74,11 @@
                         </li>
                         <!-- /Mobile Nav Toggler-->
     
-                        <!-- Navbar Search-->
-                        <li class="d-none d-sm-block">
-                            <span class="nav-link text-body search-trigger cursor-pointer">Search</span>
-    
-                            <!-- Search navbar overlay-->
-                            <div class="navbar-search d-none">
-                                <div class="input-group mb-3 h-100">
-                                    <span class="input-group-text px-4 bg-transparent border-0"><i
-                                            class="ri-search-line ri-lg"></i></span>
-                                    <input type="text" class="form-control text-body bg-transparent border-0"
-                                        placeholder="Enter your search terms...">
-                                    <span
-                                        class="input-group-text px-4 cursor-pointer disable-child-pointer close-search bg-transparent border-0"><i
-                                            class="ri-close-circle-line ri-lg"></i></span>
-                                </div>
-                            </div>
-                            <div class="search-overlay"></div>
-                            <!-- / Search navbar overlay-->
-    
-                        </li>
-                        <!-- /Navbar Search-->
+                       
     
                         <!-- Navbar Login-->
-                        <li class="ms-1 d-none d-lg-inline-block">
-                            <a class="nav-link text-body" href="./login.html">
-                                Account
-                            </a>
+                        <li class="ms-1 d-none d-lg-inline-block" id="accountNav">
+                            <!-- Content will be updated dynamically here -->
                         </li>
                         <!-- /Navbar Login-->
     
@@ -200,20 +178,11 @@
                                   
                                 </ul>
                               </li>
-                              <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Pages
+
+                              <li class="nav-item">
+                                <a class="nav-link" href="./category.html" role="button">
+                                  Products
                                 </a>
-                                <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="./index.html">Homepage</a></li>
-                                  <li><a class="dropdown-item" href="./category.html">Category</a></li>
-                                  <li><a class="dropdown-item" href="./product.html">Product</a></li>
-                                  <li><a class="dropdown-item" href="./cart.html">Cart</a></li>
-                                  <li><a class="dropdown-item" href="./checkout.html">Checkout</a></li>
-                                  <li><a class="dropdown-item" href="./login.html">Login</a></li>
-                                  <li><a class="dropdown-item" href="./register.html">Register</a></li>
-                                  <li><a class="dropdown-item" href="./forgotten-password.html">Forgotten Password</a></li>
-                                </ul>
                               </li>
                           </ul>                    <!-- / Menu-->
     
@@ -909,6 +878,28 @@
                 categoriesContainer.appendChild(categoryListItem);
             });
         }
+    </script>
+
+    
+    <script>
+        // JavaScript code to fetch user authentication status from Django API
+        const token = localStorage.getItem('token');
+        const accountNav = document.getElementById('accountNav');
+
+        
+        if (token) {
+            fetch('http://127.0.0.1:8000/test_token/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            });
+            accountNav.innerHTML = '<a class="nav-link text-body" href="#">ACCOUNT</a>';
+    
+                
+            } else {
+                accountNav.innerHTML = '<a class="nav-link text-body" href="../users/login.html">Log in</a>';
+            }
     </script>
 
 
