@@ -43,7 +43,7 @@
   </noscript>
 
   <!-- Page Title -->
-  <title>Ardu1na | E-commerce</title>
+  <title>ardu1na | e-commerce</title>
 
 </head>
 <body class="">
@@ -83,7 +83,7 @@
                         <!-- /Navbar Login-->
     
                         <!-- Navbar Cart Icon-->
-                        <li class="ms-1 d-inline-block position-relative dropdown-cart">
+                        <li id="shopNav" class="ms-1 d-inline-block position-relative dropdown-cart">
                             <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
                                 type="button">
                                 Bag (2)
@@ -853,6 +853,7 @@
         const token = localStorage.getItem('token');
         const accountNav = document.getElementById('accountNav');
 
+        const shopNav = document.getElementById('shopNav');
         
         if (token) {
             fetch('http://127.0.0.1:8000/test_token/', {
@@ -862,10 +863,12 @@
                 }
             });
             accountNav.innerHTML = '<button class="btn nav-link text-body " id="logout-button">Logout</button>';
-    
+            
                 
             } else {
                 accountNav.innerHTML = '<a class="nav-link text-body" href="./users/login.html">Log in</a>';
+
+                shopNav.innerHTML = '<a class="nav-link text-body" href="./users/signup.html">Signup</a>';
             }
     </script>
 
