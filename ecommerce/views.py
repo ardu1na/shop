@@ -48,13 +48,6 @@ def categories(request):
 ##########################
 ################################## Cart and shopping logic
 
-""" 
-    ## TODO ##
-    # create cart instance
-    # add product into cart
-"""
-
-
 @api_view(['POST', 'GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -64,8 +57,11 @@ def add_product_into_cart(request, product_id):
     try:
         product = Product.objects.get(pk=product_id)
         product_cart, created = ProductCart.objects.get_or_create(cart=cart, product=product)
-        
-        serializer = ProductCartSerializer(instance=product_cart)
-        return Response({'product_cart':serializer.data}, status=status.HTTP_201_CREATED)
+                
+        product_serializer = ProductCartSerializer(instance=product_cart)
+        cart_serializer = CartSerializer(instance=cart)
+
+        return Response({'product_cart':product_serializer.data, 'cart':cart_serializer.data}, status=status.HTTP_201_CREATED)
+    
     except Product.DoesNotExist:
         return Response(status=404)
