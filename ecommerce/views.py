@@ -1,5 +1,6 @@
 
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -54,11 +55,17 @@ def categories(request):
 """
 
 
-@api_view(['GET'])
+@api_view(['POST', 'GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def add_product_into_cart(request):
+def add_product_into_cart(request, product_id):
     client = request.user.client
     cart, created = Cart.objects.get_or_create(client=client, done=False)
-    print(cart)
-    return Response(f'{cart}')
+    try:
+        product = Product.objects.get(pk=product_id)
+        product_cart, created = ProductCart.objects.get_or_create(cart=cart, product=product)
+        
+        serializer = ProductCartSerializer(instance=product_cart)
+        return Response({'product_cart':serializer.data}, status=status.HTTP_201_CREATED)
+    except Product.DoesNotExist:
+        return Response(status=404)

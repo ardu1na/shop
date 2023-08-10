@@ -18,7 +18,7 @@ Authorization: token 63f78502f52abbb9a7784dba0324bb71b45a8c68
 
 ###
 
-GET  http://127.0.0.1:8000/api/shop/cart 
+POST   http://127.0.0.1:8000/api/shop/cart/8/
 Content-Type: application/json
 Authorization: token 63f78502f52abbb9a7784dba0324bb71b45a8c68
 
