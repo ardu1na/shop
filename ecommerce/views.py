@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 
 from ecommerce.models import Category, Product, \
     Cart, ProductCart,\
@@ -12,7 +11,7 @@ from ecommerce.models import Category, Product, \
 from ecommerce.serializers import \
     CategorySerializer, ProductSerializer, CategoryDetailSerializer, \
     CartSerializer, CartDetailSerializer, ProductCartSerializer,\
-    ClientSerializer
+    ClientProfileSerializer
 
 ##########################
 ################################## Main Products and Categories Display 
@@ -49,15 +48,24 @@ def categories(request):
 ### CLIENT
 
 # profile 
-@api_view(['GET','POST'])
+@api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def client_profile(request):
-    client = request.user.client
-    token = Token.objects.get(user=request.user)
+    
     try:
-        serializer = ClientSerializer(instance=client)
-        return Response(serializer.data)
+        client = request.user.client
+        serializer = ClientProfileSerializer(data=request.data, instance=client)
+        if serializer.is_valid():
+            print(serializer)
+            client.name = serializer.validated_data['name']
+            client.lastname = serializer.validated_data['lastname']
+            client.phone = serializer.validated_data['phone']
+            client.save()
+            return Response(serializer.data)
+        else:
+            print(serializer.errors)
+            return Response(status=404)
     except Client.DoesNotExist:
         return Response(status=404)
 

@@ -253,12 +253,14 @@
           // Get the values from your input elements manually
           const nameProfile = document.getElementById('name').value;
           const lastnameProfile = document.getElementById('lastname').value;
-          
+          const phoneProfile = document.getElementById('phone').value;
+
           // Construct the form data
           const formData = new FormData();
           formData.append('name', nameProfile);
           formData.append('lastname', lastnameProfile);
-  
+          formData.append('phone', phoneProfile);
+
           fetch('http://127.0.0.1:8000/api/shop/profile/', {
               method: 'POST',
               headers: {
