@@ -10,7 +10,8 @@ urlpatterns = [
     # shop
     path('cart/add/<int:product_id>/', views.add_product_into_cart),
     path('cart/delete/<int:product_id>/', views.delete_product_from_cart),
-
     path('cart/', views.cart_detail),
+    # client
+    path('profile/', views.client_profile),
 
 ]

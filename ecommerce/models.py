@@ -32,6 +32,7 @@ class Subcategory(ModelBase):
     class Meta:
         verbose_name_plural = "Subcategories"
 
+
 class Product(ModelBase):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=3000)
@@ -46,12 +47,16 @@ class Product(ModelBase):
     def __str__(self):
         return self.name
     
+    
+    
+
+## TODO: clean phone number    
 class Client(ModelBase):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
     name = models.CharField(max_length=200, blank=True, null=True)
     lastname = models.CharField(max_length=200, blank=True, null=True)
-    dob = models.DateField(blank=True, null=True)
-    
+    phone = models.CharField(max_length=200, blank=True, null=True)
+
     def __str__(self):
         if self.name and self.lastname:
             return f'{self.name} {self.lastname}'
@@ -62,6 +67,11 @@ class Client(ModelBase):
             return f'{self.lastname}'
         else:
             return self.user.username
+        
+        
+        
+        
+        
         
 # Signal function to create a client
 @receiver(post_save, sender=User)

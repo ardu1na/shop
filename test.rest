@@ -28,3 +28,11 @@ Authorization: token 906a90a25ddccaa9b6a1f293253bdb62106f3c34
 DELETE   http://127.0.0.1:8000/api/shop/cart/delete/16/
 Content-Type: application/json
 Authorization: token 66f047842a322a776de6cc52afe0de60e791bd54
+
+
+
+###
+
+GET   http://127.0.0.1:8000/api/shop/profile/
+Content-Type: application/json
+Authorization: token 66f047842a322a776de6cc52afe0de60e791bd54

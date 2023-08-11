@@ -1,6 +1,8 @@
 from rest_framework import serializers
-from ecommerce.models import Category, Subcategory, Product,\
-    Cart, ProductCart
+from ecommerce.models import \
+        Category, Subcategory, Product,\
+        Cart, ProductCart,\
+        Client
 
 
 
@@ -53,4 +55,17 @@ class CartDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
+        fields = '__all__'
+        
+        
+
+##########################
+################################## Client data
+
+class ClientSerializer(serializers.ModelSerializer):
+    username = serializers.ReadOnlyField(source='user.username')
+    email = serializers.ReadOnlyField(source='user.email')
+    
+    class Meta:
+        model = Client
         fields = '__all__'

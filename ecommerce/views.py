@@ -4,10 +4,15 @@ from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+
 from ecommerce.models import Category, Product, \
-    Cart, ProductCart
-from ecommerce.serializers import CategorySerializer, ProductSerializer, CategoryDetailSerializer, \
-    CartSerializer, CartDetailSerializer, ProductCartSerializer
+    Cart, ProductCart,\
+    Client
+from ecommerce.serializers import \
+    CategorySerializer, ProductSerializer, CategoryDetailSerializer, \
+    CartSerializer, CartDetailSerializer, ProductCartSerializer,\
+    ClientSerializer
 
 ##########################
 ################################## Main Products and Categories Display 
@@ -41,13 +46,27 @@ def categories(request):
 ##########################
 ################################## 
 
+### CLIENT
+
+# profile 
+@api_view(['GET','POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def client_profile(request):
+    client = request.user.client
+    token = Token.objects.get(user=request.user)
+    try:
+        serializer = ClientSerializer(instance=client)
+        return Response(serializer.data)
+    except Client.DoesNotExist:
+        return Response(status=404)
 
 
 
 
 ##########################
 ################################## Cart and shopping logic
-
+## TODO: not let add a product into cart if not logged in, redirect to login page
 
 @api_view(['POST', 'GET'])
 @authentication_classes([TokenAuthentication])
@@ -109,6 +128,6 @@ def cart_detail(request):
 
 
 ### TODO
-# delete cart item
+# link to productdetail in cart for each item
 # checkout - cart done
 

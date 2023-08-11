@@ -15,7 +15,6 @@ from users.serializers import UserSerializer
 
 ## TODO ##
 # view for restore password
-# view for profile 
 # signup with email confirmation
 # delete session when user is off after certain ammout of time
 
@@ -71,3 +70,4 @@ class LogoutView(APIView):
 @permission_classes([IsAuthenticated])
 def test_token(request):
     return Response("passed!")
+
