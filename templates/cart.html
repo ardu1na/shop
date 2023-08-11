@@ -77,49 +77,22 @@
                             <h3 class="fs-5 fw-bolder mb-0 border-bottom pb-4">Your Cart</h3>
                             <div class="table-responsive">
                                 <table class="table align-middle">
-                                    <tbody class="border-0">
-                                        <!-- Cart Item-->
-                                        <div class="row mx-0 py-4 g-0 border-bottom">
-                                            <div class="col-2 position-relative">
-                                                <picture class="d-block border">
-                                                    <img class="img-fluid" src="./assets/images/products/product-cart-1.jpg" alt="HTML Bootstrap Template by Pixel Rocket">
-                                                </picture>
-                                            </div>
-                                            <div class="col-9 offset-1">
-                                                <div>
-                                                    <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                        Nike Air VaporMax 2021
-                                                        <i class="ri-close-line ms-3"></i>
-                                                    </h6>
-                                                    <span class="d-block text-muted fw-bolder text-uppercase fs-9">Size: 9 / Qty: 1</span>
-                                                </div>
-                                                <p class="fw-bolder text-end text-muted m-0">$85.00</p>
-                                            </div>
-                                        </div>                                        <!-- / Cart Item-->
-                                        <!-- Cart Item-->
-                                        <div class="row mx-0 py-4 g-0 border-bottom">
-                                            <div class="col-2 position-relative">
-                                                <picture class="d-block border">
-                                                    <img class="img-fluid" src="./assets/images/products/product-cart-2.jpg" alt="HTML Bootstrap Template by Pixel Rocket">
-                                                </picture>
-                                            </div>
-                                            <div class="col-9 offset-1">
-                                                <div>
-                                                    <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                        Nike ZoomX Vaporfly
-                                                        <i class="ri-close-line ms-3"></i>
-                                                    </h6>
-                                                    <span class="d-block text-muted fw-bolder text-uppercase fs-9">Size: 11 / Qty: 1</span>
-                                                </div>
-                                                <p class="fw-bolder text-end text-muted m-0">$125.00</p>
-                                            </div>
-                                        </div>                                        <!-- / Cart Item-->
+                                    <tbody class="border-0" id="cartTable">
+
+
+                                    <!-- Cart Items-->
+
+                                        
+
+                                    <!-- / Cart Items-->
+
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
                     <div class="p-4 py-lg-0 pe-lg-0 ps-lg-5">
                         <div class="pb-4 border-bottom">
@@ -145,7 +118,75 @@
     </section>
     <!-- / Main Section-->
 
-    <!-- Theme JS -->
+    
+    <script>
+    const apiBaseUrl = 'http://127.0.0.1:8000';
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // JavaScript code to fetch user authentication status from Django API
+        const token = localStorage.getItem('token');
+        const cartTable = document.getElementById('cartTable');
+
+        let cart = {}; 
+
+        
+            fetch('http://127.0.0.1:8000/api/shop/cart/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            }).then(response => response.json())
+            .then(data => {
+                 
+                cart = data.cart;
+                products = cart.products;
+
+
+                let cartItemsHTML = '';  // Initialize an empty string to store the generated HTML
+
+                // Loop through each product in the cart and generate HTML
+                products.forEach(product => {
+                    cartItemsHTML += `
+
+
+                    <!-- Cart Item-->
+                        <div class="row mx-0 py-4 g-0 border-bottom">
+                            <div class="col-2 position-relative">
+                                <picture class="d-block border">
+                                    <img class="img-fluid " src="${apiBaseUrl}/${product.image}" alt="">
+                                </picture>
+                            </div>
+                            <div class="col-9 offset-1">
+                                <div>
+                                    <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                        ${product.product_name}
+                                        <i class="ri-close-line ms-3"></i>
+                                    </h6>
+                                </div>
+                                <p class="fw-bolder text-end text-muted m-0">$${product.subtotal.toFixed(2)}</p>
+                            </div>
+                        </div>
+                    <!-- / Cart Item-->
+                    `;
+                });
+
+                cartTable.innerHTML = `
+                    
+                        ${cartItemsHTML}
+                    
+                `;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+            
+            
+     
+            
+    })
+
+    </script>
+
     <!-- Vendor JS -->
     <script src="./assets/js/vendor.bundle.js"></script>
     
