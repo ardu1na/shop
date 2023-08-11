@@ -82,11 +82,50 @@ class Cart(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts')
     total = models.PositiveIntegerField(default=0)
     done = models.BooleanField(default=False)
-
+    products_q = models.SmallIntegerField(default=0)
+    
     def __str__(self):
         date_time = self.date_created.strftime('%H:%M %d/%m')
         return f'{self.client} Cart - {date_time}'
     
+   
+       
+class ProductCart(ModelBase):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='products')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='carts')
+    ammount = models.PositiveSmallIntegerField(default=1)
+    subtotal = models.IntegerField(default=0)
+
+
+    def __str__(self):
+        date_time = self.date_created.strftime('%H:%M %d/%m')
+        return f'{self.product} ({self.ammount} u.) ${self.subtotal}'
+    
+    def save(self, *args, **kwargs):
+        if self.ammount != 0:
+            self.subtotal = self.product.price * self.ammount
+        else:
+            self.subtotal = 0
+        super().save(*args, **kwargs)
+
+@receiver(post_save, sender=ProductCart)
+@receiver(post_delete, sender=ProductCart)
+def update_cart(sender, instance, **kwargs):
+    cart = instance.cart
+    products = cart.products.all()
+    total = 0
+    q = 0
+    for product in products:
+        total += product.subtotal
+        q += product.ammount
+    cart.total = total
+    cart.products_q = q    
+    cart.save()
+
+
+
+
+ 
 class Order(ModelBase):   
     cart = models.OneToOneField(Cart, related_name="order", on_delete=models.CASCADE)
     
@@ -129,34 +168,3 @@ def create_order_on_cart_done(sender, instance, created, **kwargs):
         except Order.DoesNotExist:
             # Create a new Order for the Cart
             order = Order.objects.create(cart=instance)
-
-       
-class ProductCart(ModelBase):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='products')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='carts')
-    ammount = models.PositiveSmallIntegerField(default=1)
-    subtotal = models.IntegerField(default=0)
-
-
-    def __str__(self):
-        date_time = self.date_created.strftime('%H:%M %d/%m')
-        return f'{self.product} ({self.ammount} u.) ${self.subtotal}'
-    
-    def save(self, *args, **kwargs):
-        if self.ammount != 0:
-            self.subtotal = self.product.price * self.ammount
-        else:
-            self.subtotal = 0
-        super().save(*args, **kwargs)
-
-@receiver(post_save, sender=ProductCart)
-@receiver(post_delete, sender=ProductCart)
-def update_cart_total(sender, instance, **kwargs):
-    cart = instance.cart
-    products = cart.products.all()
-    total = 0
-    for product in products:
-        total += product.subtotal
-
-    cart.total = total
-    cart.save()
