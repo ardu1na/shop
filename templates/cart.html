@@ -99,18 +99,12 @@
                             <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
                                 <div>
                                     <p class="m-0 fw-bold fs-5">Grand Total</p>
-                                    <span class="text-muted small">Inc $45.89 sales tax</span>
                                 </div>
-                                <p class="m-0 fs-5 fw-bold">$422.99</p>
+                                <p class="m-0 fs-5 fw-bold" id="cartTotal">$422.99</p>
                             </div>
                         </div>
-                        <div class="py-4">
-                            <div class="input-group mb-0">
-                                <input type="text" class="form-control" placeholder="Enter coupon code">
-                                <button class="btn btn-secondary btn-sm px-4">Apply</button>
-                            </div>
-                        </div>
-                        <a href="./checkout.html" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>                    </div>
+                        
+                        <a href="./checkout.html" class="btn btn-dark w-100 text-center py-4" role="button">Proceed to checkout</a>                    </div>
                 </div>
             </div>
         </div>
@@ -126,6 +120,7 @@
         // JavaScript code to fetch user authentication status from Django API
         const token = localStorage.getItem('token');
         const cartTable = document.getElementById('cartTable');
+        const cartTotal= document.getElementById('cartTotal');
 
         let cart = {}; 
 
@@ -141,6 +136,7 @@
                 cart = data.cart;
                 products = cart.products;
 
+                cartTotal.textContent = '$' + cart.total.toFixed(2);
 
                 let cartItemsHTML = '';  // Initialize an empty string to store the generated HTML
 
