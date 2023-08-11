@@ -5,7 +5,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from ecommerce.models import Category, Product, \
-    Cart, ProductCart, Client
+    Cart, ProductCart
 from ecommerce.serializers import CategorySerializer, ProductSerializer, CategoryDetailSerializer, \
     CartSerializer, CartDetailSerializer, ProductCartSerializer
 
