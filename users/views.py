@@ -58,9 +58,7 @@ def login(request):
     return Response({'token': token.key, 'user': serializer.data})
 
 class LogoutView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
+    
     def post(self, request):
         user = request.user
         token = get_object_or_404(Token, user=user)

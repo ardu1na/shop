@@ -84,3 +84,12 @@ def cart_detail(request):
     
     except Cart.DoesNotExist:
         return Response(status=404)
+    
+
+
+### TODO
+# delete cart item
+# add quantity into item
+# checkout - cart done
+# refresh when product is added to cart ---> with ajax?
+

@@ -359,10 +359,15 @@
 
     
 
+   
     <script>
       
         // Function to log out the user
         function logoutUser() {
+          // Remove the token from local storage
+          localStorage.removeItem('token');
+      
+          
           $.ajax({
             url: 'http://127.0.0.1:8000/logout/',
             type: 'POST',
@@ -373,16 +378,15 @@
               // Handle successful logout
               console.log(response.message);
       
-              // Remove the token from local storage
-              localStorage.removeItem('token');
-      
-              location.reload();
+              
             },
             error: function(error) {
               // Handle error
               console.error('Error logging out:', error);
             }
           });
+
+          location.reload();
         }
       
         // Attach the logout function to the button click event
