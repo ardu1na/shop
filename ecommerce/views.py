@@ -49,9 +49,6 @@ def categories(request):
 ################################## Cart and shopping logic
 
 
-## TODO:
-# including ammount of product in form or really adding it from product_detail
-# deleting cart after certain ammount of time
 @api_view(['POST', 'GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -72,6 +69,30 @@ def add_product_into_cart(request, product_id):
 
 
 
+@api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_product_from_cart(request, product_id):
+    client = request.user.client
+    try:
+       # Delete the product from the cart
+        try:
+            product_cart = ProductCart.objects.get(pk=product_id)
+            cart = product_cart.cart
+            if cart.client == client:
+                product_cart.delete()
+        except ProductCart.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        cart_serializer = CartSerializer(instance=cart)
+        return Response({'cart': cart_serializer.data}, status=status.HTTP_200_OK)
+    
+    except Cart.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -89,6 +110,5 @@ def cart_detail(request):
 
 ### TODO
 # delete cart item
-# add quantity into item
 # checkout - cart done
 
