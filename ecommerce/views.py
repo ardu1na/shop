@@ -48,6 +48,10 @@ def categories(request):
 ##########################
 ################################## Cart and shopping logic
 
+
+## TODO:
+# including ammount of product in form or really adding it from product_detail
+# deleting cart after certain ammount of time
 @api_view(['POST', 'GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -64,4 +68,19 @@ def add_product_into_cart(request, product_id):
         return Response({'product_cart':product_serializer.data, 'cart':cart_serializer.data}, status=status.HTTP_201_CREATED)
     
     except Product.DoesNotExist:
+        return Response(status=404)
+
+
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def cart_detail(request):
+    client = request.user.client
+    try:
+        cart = Cart.objects.get(client=client, done=False)
+        cart_serializer = CartDetailSerializer(instance=cart)
+        return Response({'cart':cart_serializer.data}, status=status.HTTP_200_OK)
+    
+    except Cart.DoesNotExist:
         return Response(status=404)

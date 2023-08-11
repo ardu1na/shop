@@ -17,6 +17,7 @@ from users.serializers import UserSerializer
 # view for restore password
 # view for profile 
 # signup with email confirmation
+# delete session when user is off after certain ammout of time
 
 @api_view(['POST'])
 def signup(request):
