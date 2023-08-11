@@ -14,5 +14,7 @@ urlpatterns = [
     # client
     path('profile/', views.client_profile),
     path('profile/update/', views.update_client_profile),
+    path('profile/location/', views.add_client_location),
+
 
 ]

@@ -36,3 +36,14 @@ Authorization: token 66f047842a322a776de6cc52afe0de60e791bd54
 GET   http://127.0.0.1:8000/api/shop/profile/
 Content-Type: application/json
 Authorization: token 66f047842a322a776de6cc52afe0de60e791bd54
+
+
+
+
+###
+
+POST   http://127.0.0.1:8000/api/shop/profile/location/
+Content-Type: application/json
+Authorization: token 66f047842a322a776de6cc52afe0de60e791bd54
+
+{ "address": "holddasdfasa", "address_number": "2343", "apartament": "h", "country": "hola", "state": "jelouki", "city": "helcom", "post_code": "3423"}

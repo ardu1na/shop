@@ -2,7 +2,7 @@ from rest_framework import serializers
 from ecommerce.models import \
         Category, Subcategory, Product,\
         Cart, ProductCart,\
-        Client
+        Client, Location
 
 
 
@@ -62,6 +62,12 @@ class CartDetailSerializer(serializers.ModelSerializer):
 ##########################
 ################################## Client data
 
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = ['address','address_number','apartament', 'country', 'state', 'city', 'post_code']
+    
+    
 class ClientSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='user.username')
     email = serializers.ReadOnlyField(source='user.email')
