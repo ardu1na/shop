@@ -81,10 +81,21 @@ def create_client_on_new_user(sender, instance, created, **kwargs):
     except Client.DoesNotExist:
         client = Client.objects.create(user=instance)
        
-class Location(models.Model):
+class Location(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='locations')
-
-class PayMethod(models.Model):
+    
+    address = models.CharField(max_length=450, null=True, blank=True)
+    address_number = models.PositiveSmallIntegerField(null=True, blank=True)
+    apartament =  models.CharField(null=True, blank=True, max_length=500)
+    country = models.CharField(null=True, blank=True, max_length=200)
+    state = models.CharField(null=True, blank=True, max_length=200)
+    city = models.CharField(null=True, blank=True, max_length=200)
+    post_code = models.PositiveSmallIntegerField(null=True, blank=True)
+    
+    def __str__ (self):
+        return f'{self.client} address'
+    
+class PayMethod(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='pay_methods')
 
     

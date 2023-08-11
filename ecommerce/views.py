@@ -47,7 +47,7 @@ def categories(request):
 
 ### CLIENT
 
-# profile 
+# see profile 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -63,8 +63,8 @@ def client_profile(request):
 
 
 
-
-# profile 
+# TODO: ADD CHANGE USER.EMAIL IN THIS USER.CLIENT
+# update profile 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
