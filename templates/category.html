@@ -395,47 +395,6 @@
 
 
       <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const productsContainer = document.getElementById('products-container');
-        
-            // Attach click event to the container element
-            productsContainer.addEventListener('click', function(event) {
-                const target = event.target;
-        
-                // Check if the clicked element has the class "add-product-link"
-                if (target.classList.contains('add-product-link')) {
-                    event.preventDefault(); // Prevent default link behavior
-                    const productId = target.getAttribute('data-product-id');
-                    addProductToCart(productId);
-                }
-            });
-        
-            // Function to add a product to the cart
-            function addProductToCart(productId) {
-                fetch(`${apiBaseUrl}/api/shop/cart/add/${productId}/`, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Token ${token}`
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Handle the response from the cart API if needed
-                    console.log('Product added to cart:', data);
-                })
-                .catch(error => {
-                    console.error('Error adding product to cart:', error);
-                });
-            }
-        });
-        
-
-    </script>
-    
-
-
-
-    <script>
         document.addEventListener("DOMContentLoaded", function() {
 
         // JavaScript code to fetch user authentication status from Django API
@@ -528,6 +487,48 @@
         });
 
     </script>
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productsContainer = document.getElementById('products-container');
+        
+            // Attach click event to the container element
+            productsContainer.addEventListener('click', function(event) {
+                const target = event.target;
+        
+                // Check if the clicked element has the class "add-product-link"
+                if (target.classList.contains('add-product-link')) {
+                    event.preventDefault(); // Prevent default link behavior
+                    const productId = target.getAttribute('data-product-id');
+                    addProductToCart(productId);
+                }
+            });
+            const token = localStorage.getItem('token');
+
+            // Function to add a product to the cart
+            function addProductToCart(productId) {
+                fetch(`${apiBaseUrl}/api/shop/cart/add/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response from the cart API if needed
+                    console.log('Product added to cart:', data);
+                })
+                .catch(error => {
+                    console.error('Error adding product to cart:', error);
+                });
+            }
+        });
+        
+
+    </script>
+    
+
+
 
     <!-- Vendor JS -->
     <script src="./assets/js/vendor.bundle.js"></script>
