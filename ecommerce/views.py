@@ -74,12 +74,11 @@ def update_client_profile(request):
         client = request.user.client
         serializer = ClientProfileSerializer(data=request.data, instance=client)
         if serializer.is_valid():
-            print(serializer)
             client.name = serializer.validated_data['name']
             client.lastname = serializer.validated_data['lastname']
             client.phone = serializer.validated_data['phone']
             client.save()
-            return Response(serializer.data)
+            return Response({'data':serializer.data}, status=status.HTTP_202_ACCEPTED)
         else:
             print(serializer.errors)
             return Response(status=404)
