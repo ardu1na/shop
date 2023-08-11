@@ -84,36 +84,36 @@
                             </div>
                             
                             <div class="row" id="profile-form">
-                              <!-- First Name-->
-                              <div class="col-sm-6">
-                                <div class="form-group">
-                                  <label for="name" class="form-label">First name</label>
-                                  <input type="text" class="form-control" id="name" placeholder="" value="" required="">
+                                <!-- First Name-->
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="name" class="form-label">First name</label>
+                                    <input type="text" class="form-control" id="name" placeholder="" value="" required="">
+                                  </div>
                                 </div>
-                              </div>
-                            
-                              <!-- Last Name-->
-                              <div class="col-sm-6">
-                                <div class="form-group">
-                                  <label for="lastname" class="form-label">Last name</label>
-                                  <input type="text" class="form-control" id="lastname" placeholder="" value="" required="">
+                              
+                                <!-- Last Name-->
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label for="lastname" class="form-label">Last name</label>
+                                    <input type="text" class="form-control" id="lastname" placeholder="" value="" required="">
+                                  </div>
                                 </div>
-                              </div>
 
-                              <!-- phone Number-->
-                              <div class="col-sm-12">
-                                <div class="form-group">
-                                  <label for="phone" class="form-label">Phone Number</label>
-                                  <input type="text" class="form-control" id="phone" placeholder=" 54 9 11 5555 3333" value="" required="">
+                                <!-- phone Number-->
+                                <div class="col-sm-12">
+                                  <div class="form-group">
+                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <input type="text" class="form-control" id="phone" placeholder=" 54 9 11 5555 3333" value="" required="">
+                                  </div>
                                 </div>
+
+
+                                <div class="py-2">
+                                  <div class="input-group mb-0 d-flex flex-row-reverse">
+                                      <button type="submit" class="btn btn-dark btn-sm px-4 py-3" id="submit-button">Update</button>
+                                  </div>
                               </div>
-
-
-                              <div class="py-2">
-                                <div class="input-group mb-0 d-flex flex-row-reverse">
-                                    <button type="submit" class="btn btn-dark btn-sm px-4 py-3" id="submit-button">Update</button>
-                                </div>
-                            </div>
 
                             
                             </div>
@@ -244,8 +244,31 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+      
       const token = localStorage.getItem('token');
-              
+            
+            
+      // Fetch existing profile data and populate the form fields
+      fetch('http://127.0.0.1:8000/api/shop/profile/', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Token ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const nameField = document.getElementById('name');
+        const lastnameField = document.getElementById('lastname');
+        const phoneField = document.getElementById('phone');
+
+        nameField.value = data.name || '';  // Populate with existing name or leave blank
+        lastnameField.value = data.lastname || '';  // Populate with existing lastname or leave blank
+        phoneField.value = data.phone || '';  // Populate with existing phone or leave blank
+      });
+    </script>
+
+      <script>
+
       document.getElementById('submit-button').addEventListener('click', function(event) {
           // Prevent the default button click behavior (e.g., page reload)
           event.preventDefault();
@@ -261,7 +284,7 @@
           formData.append('lastname', lastnameProfile);
           formData.append('phone', phoneProfile);
 
-          fetch('http://127.0.0.1:8000/api/shop/profile/', {
+          fetch('http://127.0.0.1:8000/api/shop/profile/update/', {
               method: 'POST',
               headers: {
                   'Authorization': `Token ${token}`
@@ -271,16 +294,15 @@
           .then(response => {
               if (response.ok) {
                   return response.json();
-                  location.reload();
+                 
 
-                  
+                   
               } else if (response.status === 409) {
-                  return response.json(); // Parse the JSON error response from the server
+                  return response.json(); // Parse the JSON error response from the server   
               } else {
                   throw new Error('update failed');
               }
           })
-          
       });
   </script>
   

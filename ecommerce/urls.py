@@ -13,5 +13,6 @@ urlpatterns = [
     path('cart/', views.cart_detail),
     # client
     path('profile/', views.client_profile),
+    path('profile/update/', views.update_client_profile),
 
 ]

@@ -48,10 +48,27 @@ def categories(request):
 ### CLIENT
 
 # profile 
-@api_view(['POST'])
+@api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def client_profile(request):
+    
+    try:
+        client = request.user.client
+    
+        serializer = ClientProfileSerializer(instance=client)
+        return Response(serializer.data)
+    except Client.DoesNotExist:
+        return Response(status=404)
+
+
+
+
+# profile 
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def update_client_profile(request):
     
     try:
         client = request.user.client
@@ -66,9 +83,9 @@ def client_profile(request):
         else:
             print(serializer.errors)
             return Response(status=404)
+    
     except Client.DoesNotExist:
         return Response(status=404)
-
 
 
 
