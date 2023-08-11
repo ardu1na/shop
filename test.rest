@@ -14,13 +14,13 @@ Content-Type: application/json
 
 GET http://127.0.0.1:8000/test_token 
 Content-Type: application/json
-Authorization: token 63f78502f52abbb9a7784dba0324bb71b45a8c68
+Authorization: token e00eec206819def151edf161902cbe7c3278ab63
 
 ###
 
-POST   http://127.0.0.1:8000/api/shop/cart/8/
+POST   http://127.0.0.1:8000/api/shop/cart/add/8/
 Content-Type: application/json
-Authorization: token 63f78502f52abbb9a7784dba0324bb71b45a8c68
+Authorization: token e00eec206819def151edf161902cbe7c3278ab63
 
 
 ###

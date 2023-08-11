@@ -187,7 +187,8 @@
                                 </a>
                               </li>
                              
-                          </ul>                    <!-- / Menu-->
+                          </ul>
+                    <!-- / Menu-->
     
                     </div>
                     <!-- / Main Navigation-->
@@ -359,11 +360,11 @@
                                         <img class="w-100 img-fluid position-relative z-index-10" src="${apiBaseUrl}/${product.image}" alt="">
                                     </picture>
                                         <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
-                                            <button class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
+                                            <button  class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
                                         </div>
                                 </div>
                                 <div class="card-body px-0">
-                                    <a class="text-decoration-none link-cover" href="./product.html">${product.name}</a>
+                                    <a  data-product-id="${product.id}"  class="add-product-link text-decoration-none link-cover" href="#">${product.name}</a>
                                     <small class="text-muted d-block">${product.description} </small>
                                     <p class="mt-2 mb-0 small">$${product.price.toFixed(2)}</p>
                                 </div>
@@ -397,21 +398,20 @@
             
                     productCard.innerHTML = `
                     <!-- Card Product-->
-                            <div class="card border border-transparent position-relative overflow-hidden h-100 transparent">
+                            <div   class="card border border-transparent position-relative overflow-hidden h-100 transparent">
                                 <div class="card-img position-relative">
                                     <div class="card-badges">
-                                            <span class="badge badge-card"><span class="f-w-2 f-h-2 bg-success rounded-circle d-block me-1"></span> New In</span>
                                     </div>
                                     <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted"><i class="ri-heart-line"></i></span>
                                     <picture class="position-relative overflow-hidden d-block bg-light">
                                         <img class="w-100 img-fluid position-relative z-index-10" src="${apiBaseUrl}/${product.image}" alt="">
                                     </picture>
                                         <div class="position-absolute start-0 bottom-0 end-0 z-index-20 p-2">
-                                            <button class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
+                                            <button  class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
                                         </div>
                                 </div>
                                 <div class="card-body px-0">
-                                    <a class="text-decoration-none link-cover" href="./product.html">${product.name}</a>
+                                    <a data-product-id="${product.id}" href="#" class="add-product-link text-decoration-none link-cover">${product.name}</a>
                                     <small class="text-muted d-block">${product.description} </small>
                                     <p class="mt-2 mb-0 small">$${product.price.toFixed(2)}</p>
                                 </div>
@@ -424,7 +424,8 @@
             }
     </script>
 
-  
+
+
     <script>
         // JavaScript code to fetch user authentication status from Django API
         const token = localStorage.getItem('token');
@@ -479,6 +480,48 @@
         // Attach the logout function to the button click event
         $('#logout-button').click(logoutUser);
       </script>
+
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productsContainer = document.getElementById('products-container');
+        
+            // Attach click event to the container element
+            productsContainer.addEventListener('click', function(event) {
+                const target = event.target;
+        
+                // Check if the clicked element has the class "add-product-link"
+                if (target.classList.contains('add-product-link')) {
+                    event.preventDefault(); // Prevent default link behavior
+                    const productId = target.getAttribute('data-product-id');
+                    addProductToCart(productId);
+                }
+            });
+        
+            // Function to add a product to the cart
+            function addProductToCart(productId) {
+                fetch(`${apiBaseUrl}/api/shop/cart/add/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response from the cart API if needed
+                    console.log('Product added to cart:', data);
+                })
+                .catch(error => {
+                    console.error('Error adding product to cart:', error);
+                });
+            }
+        });
+        
+
+    </script>
+    
+
+
 </body>
 
 </html>
