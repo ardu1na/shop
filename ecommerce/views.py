@@ -91,5 +91,4 @@ def cart_detail(request):
 # delete cart item
 # add quantity into item
 # checkout - cart done
-# refresh when product is added to cart ---> with ajax?
 
