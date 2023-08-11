@@ -40,6 +40,7 @@ class CartSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductCartSerializer(serializers.ModelSerializer):
+    product_name = serializers.ReadOnlyField(source='product.name')
     class Meta:
         model = ProductCart
         fields = '__all__'
