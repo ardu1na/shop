@@ -517,6 +517,8 @@
                 .then(data => {
                     // Handle the response from the cart API if needed
                     console.log('Product added to cart:', data);
+                    location.reload();
+
                 })
                 .catch(error => {
                     console.error('Error adding product to cart:', error);
