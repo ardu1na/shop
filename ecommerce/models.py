@@ -98,6 +98,8 @@ class Location(ModelBase):
 class PayMethod(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='pay_methods')
 
+    def __str__(self):
+        return f'{self.client} paymethod'
     
 class Cart(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts')
@@ -163,6 +165,15 @@ class Order(ModelBase):
             self.closed == True
         super().save(*args, **kwargs)
 
+    
+    def __str__(self):
+        if self.closed == True:
+            done = "Done"
+        else:
+            done = "Not Closed"
+        return f'{self.cart.client} Cart - {done}'
+    
+    
     @property
     def products(self):
         
