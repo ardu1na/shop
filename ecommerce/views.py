@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from ecommerce.models import Category, Product, \
     Cart, ProductCart,\
     Client, Location
+    
 from ecommerce.serializers import \
     CategorySerializer, ProductSerializer, CategoryDetailSerializer, \
     CartSerializer, CartDetailSerializer, ProductCartSerializer,\
@@ -117,7 +118,6 @@ def update_client_profile(request):
 
 ##########################
 ################################## Cart and shopping logic
-## TODO: not let add a product into cart if not logged in, redirect to login page
 
 @api_view(['POST', 'GET'])
 @authentication_classes([TokenAuthentication])
