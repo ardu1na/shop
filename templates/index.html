@@ -45,6 +45,9 @@
   <!-- Page Title -->
   <title>ardu1na | e-commerce</title>
 
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body class="">
 
@@ -745,15 +748,6 @@
 
     
 
-
-    <!-- Theme JS -->
-    <!-- Vendor JS -->
-    <script src="./assets/js/vendor.bundle.js"></script>
-    
-    <!-- Theme JS -->
-    <script src="./assets/js/theme.bundle.js"></script>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <script>
         const apiBaseUrl = 'http://127.0.0.1:8000';
@@ -875,38 +869,51 @@
 
   </script>
 
-    <script>
-      
-        // Function to log out the user
-        function logoutUser() {
-          // Remove the token from local storage
-          localStorage.removeItem('token');
-      
-          
-          $.ajax({
-            url: 'http://127.0.0.1:8000/logout/',
-            type: 'POST',
-            headers: {
-              'Authorization': `Token ${token}`
-            },
-            success: function(response) {
-              // Handle successful logout
-              console.log(response.message);
-      
-              
-            },
-            error: function(error) {
-              // Handle error
-              console.error('Error logging out:', error);
-            }
-          });
 
-          location.reload();
-        }
+  <script>
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+    // Function to log out the user
+    function logoutUser() {
+      // Remove the token from local storage
+      const token = localStorage.getItem('token');
+      localStorage.removeItem('token');
+
+
       
-        // Attach the logout function to the button click event
-        $('#logout-button').click(logoutUser);
-      </script>
+      $.ajax({
+        url: 'http://127.0.0.1:8000/logout/',
+        type: 'POST',
+        headers: {
+          'Authorization': `Token ${token}`
+        },
+        success: function(response) {
+          // Handle successful logout
+          console.log(response.message);
+  
+          
+        },
+        error: function(error) {
+          // Handle error
+          console.error('Error logging out:', error);
+        }
+      });
+
+      location.reload();
+    }
+  
+    // Attach the logout function to the button click event
+    $('#logout-button').click(logoutUser);})
+  </script>
+      
+
+    <!-- Vendor JS -->
+    <script src="./assets/js/vendor.bundle.js"></script>
+    
+    <!-- Theme JS -->
+    <script src="./assets/js/theme.bundle.js"></script>
+
 
 </body>
 
