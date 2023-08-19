@@ -17,12 +17,6 @@ from ecommerce.serializers import \
 
 
 
-"""
-    TODO:
-    # en index frontend, condicional de si no hay chart, testear otras vistas
-"""
-
-
 
 
 ##########################
@@ -195,7 +189,9 @@ def cart_detail(request):
         return Response({'cart':cart_serializer.data}, status=status.HTTP_200_OK)
     
     except Cart.DoesNotExist:
-        return Response(status=404)
+        cart = Cart.objects.create(client=client, done=False)
+        cart_serializer = CartDetailSerializer(instance=cart)
+        return Response({'cart':cart_serializer.data}, status=status.HTTP_200_OK)
     
 
 
