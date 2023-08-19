@@ -5,6 +5,7 @@ from ecommerce.models import Product, ProductCart, Cart, Client, Category, Subca
 
 admin.site.register(Product)
 admin.site.register(Order)
+admin.site.register(ProductCart)
 
 class SubcategoryInline(admin.StackedInline):
     model = Subcategory

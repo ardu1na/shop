@@ -21,7 +21,7 @@ from users.serializers import UserSerializer
 # delete session when user is off after certain ammout of time ---
 # Token has a datetime field named 'created' 
 # so i can use cronjobs to check and delete token after certain amount of time  
-# but what about session, what if we delete token when user is using it?
+# but what about session, what if we delete token when user is using it? -as cloudflare does haha -
 
 
 
@@ -71,6 +71,11 @@ class LogoutView(APIView):
         token = get_object_or_404(Token, user=user)
         token.delete()
         return Response({'message': f'Goodbye, {user.username}!'}, status=status.HTTP_200_OK)
+
+
+
+
+
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])

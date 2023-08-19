@@ -33,6 +33,15 @@ Authorization: token 66f047842a322a776de6cc52afe0de60e791bd54
 
 ###
 
+GET   http://127.0.0.1:8000/api/shop/cart/
+Content-Type: application/json
+Authorization: token d7f8651f7da094cd538dad9a8c7a67a9893eedb1
+
+
+
+
+###
+
 GET   http://127.0.0.1:8000/api/shop/profile/
 Content-Type: application/json
 Authorization: token e724b5ea8a20913039415af1cb79760e9a05e3b3
