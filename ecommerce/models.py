@@ -40,14 +40,17 @@ class Product(ModelBase):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name='products')
 
-    image = models.ImageField(blank=True, null=True, upload_to="media")
 
     available = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name
     
-    
+
+class ProductImage(ModelBase):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(blank=True, null=True, upload_to="products")
+
     
 
 ## TODO: clean phone number    
