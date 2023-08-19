@@ -15,9 +15,12 @@ class SubcategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
+    category_name = serializers.ReadOnlyField(source='category.name')
+    subcategory_name = serializers.ReadOnlyField(source='subcategory.name')
+
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['id','name','description','price','image','available','category_name', 'subcategory_name']
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
     subcategories = SubcategorySerializer(many=True)
@@ -71,14 +74,15 @@ class LocationSerializer(serializers.ModelSerializer):
 class ClientSerializer(serializers.ModelSerializer):
     username = serializers.ReadOnlyField(source='user.username')
     email = serializers.ReadOnlyField(source='user.email')
-    
+
     class Meta:
         model = Client
         fields = '__all__'
         
 
 class ClientProfileSerializer(serializers.ModelSerializer):
-        
+    email = serializers.ReadOnlyField(source='user.email')
+    
     class Meta:
         model = Client
-        fields = ['name','lastname','phone']
+        fields = ['name','lastname','email','phone']

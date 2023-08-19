@@ -14,6 +14,17 @@ from ecommerce.serializers import \
     CartSerializer, CartDetailSerializer, ProductCartSerializer,\
     ClientProfileSerializer, LocationSerializer
 
+
+
+
+"""
+    TODO:
+    # en index frontend, condicional de si no hay chart, testear otras vistas
+"""
+
+
+
+
 ##########################
 ################################## Main Products and Categories Display 
 
@@ -25,7 +36,7 @@ def products(request):
     return Response(serializer.data)  # Return serialized data in the response
 
 
-
+## TODO: INTEGRATE WITH FRONT END
 @api_view(['GET'])
 def product_detail(request, product_id):
     try:
