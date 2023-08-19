@@ -169,28 +169,10 @@
                 <!-- Product Image-->
                 <div class="col-12 col-md-6 col-xl-7">
                     <div class="row g-3" data-aos="fade-right">
-                        <div class="col-12">
-                            <picture>
-                                <img class="img-fluid" data-zoomable src="./assets/images/products/product-page-1.jpeg" alt="HTML Bootstrap Template by Pixel Rocket">
-
-
-                            </picture>
+                        <div class="col-12" id="image-product-container">
+                            
                         </div>
-                        <div class="col-12">
-                            <picture>
-                                <img class="img-fluid" data-zoomable src="./assets/images/products/product-page-2.jpeg" alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                        </div>
-                        <div class="col-12">
-                            <picture>
-                                <img class="img-fluid" data-zoomable src="./assets/images/products/product-page-3.jpeg" alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                        </div>
-                        <div class="col-12">
-                            <picture>
-                                <img class="img-fluid" data-zoomable src="./assets/images/products/product-page-4.jpeg" alt="HTML Bootstrap Template by Pixel Rocket">
-                            </picture>
-                        </div>
+                        
                     </div>
                 </div>
                 <!-- /Product Images-->
@@ -200,14 +182,14 @@
                     <div class="sticky-top top-5">
                         <div class="pb-3" data-aos="fade-in">
                             <div class="d-flex align-items-center mb-3">
-                                <p class="small fw-bolder text-uppercase tracking-wider text-muted m-0 me-4">KiiKii</p>
+                                <p class="small fw-bolder text-uppercase tracking-wider text-muted m-0 me-4" id="product-category2"></p>
                                 
                             </div>
                             </div>
                             
-                            <h1 class="mb-1 fs-2 fw-bold">Kiikii Osaka Japan Mens T-Shirt Limited Edition</h1>
+                            <h1 class="mb-1 fs-2 fw-bold" id="product-name-2"></h1>
                             <div class="d-flex justify-content-between align-items-center">
-                                <p class="fs-4 m-0">$34.99</p>
+                                <p class="fs-4 m-0" id="product-price"></p>
                             </div>
                             
                             <button class="btn btn-dark w-100 mt-4 mb-0 hover-lift-sm hover-boxshadow" id="add-product">Add To Shopping Bag</button>
@@ -386,7 +368,7 @@
 
         document.addEventListener("DOMContentLoaded", function() {
 
-        // Function to extract query parameter value from URL                                 <img class="img-fluid " src="${apiBaseUrl}/${product.image}" alt="">
+        // Function to extract query parameter value from URL                               
 
         function getQueryParam(param) {
             const urlSearchParams = new URLSearchParams(window.location.search);
@@ -412,11 +394,24 @@
 
             function populateProductDetail(product) {
                 const categoryTitleElement = document.getElementById('product-category');
+                const category2TitleElement = document.getElementById('product-category2');
                 const productTitleElement = document.getElementById('product-name');
-                const productContainer = document.getElementById('product-container'); 
-
+                const productTitleElement2 = document.getElementById('product-name-2');
+                const imageProductContainer = document.getElementById('image-product-container'); 
+                const productPrice = document.getElementById('product-price'); 
+                
+                productPrice.textContent = '$'+ product.price.toFixed(2)
                 categoryTitleElement.textContent = product.category_name;
+                category2TitleElement.textContent = product.category_name;
                 productTitleElement.textContent = product.name;
+                productTitleElement2.textContent = product.name;
+
+                imageProductContainer.innerHTML = `
+                <picture>
+                    <img class="img-fluid" data-zoomable src="${apiBaseUrl}/${product.image}" alt="HTML ardu1na ${product.name}">
+
+
+                </picture>               `
 
                 };
             }
@@ -529,10 +524,7 @@
             addButton.addEventListener('click', function(event) {
                 const target = event.target;
 
-                // Check if the clicked element has the class "add-product-link"
-                if (target.classList.contains('add-product-link')) {
-                    event.preventDefault(); // Prevent default link behavior
-                    
+               
                     // Check if the user is authenticated
                     const token = localStorage.getItem('token');
                     if (!token) {
@@ -543,7 +535,7 @@
                         const productId = target.getAttribute('data-product-id');
                         addProductToCart(productId);
                     }
-                }
+                
             });
 
             const token = localStorage.getItem('token');
