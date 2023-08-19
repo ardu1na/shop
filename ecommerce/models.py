@@ -68,7 +68,9 @@ class Client(ModelBase):
         else:
             return self.user.username
         
-        
+    @property
+    def email(self):
+        return self.user.email
         
         
         
@@ -95,11 +97,20 @@ class Location(ModelBase):
     def __str__ (self):
         return f'{self.client} address'
     
+    
+    
+    
+    
 class PayMethod(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='pay_methods')
 
     def __str__(self):
         return f'{self.client} paymethod'
+    
+    
+    
+    
+    
     
 class Cart(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts')
