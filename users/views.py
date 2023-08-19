@@ -72,10 +72,8 @@ class LogoutView(APIView):
         token.delete()
         return Response({'message': f'Goodbye, {user.username}!'}, status=status.HTTP_200_OK)
 
-
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def test_token(request):
-    return Response("passed!")
-
+    return Response({"valid": True})  # Replace True with False if the token is invalid
