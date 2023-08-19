@@ -17,10 +17,32 @@ from ecommerce.serializers import \
 ##########################
 ################################## Main Products and Categories Display 
 
-""" 
-    ## TODO ##
-    # product detail page
-"""
+
+@api_view(['GET'])
+def products(request):
+    products = Product.objects.all()  # Retrieve all categories from the database
+    serializer = ProductSerializer(products, many=True)  # Serialize the queryset
+    return Response(serializer.data)  # Return serialized data in the response
+
+
+
+@api_view(['GET'])
+def product_detail(request, product_id):
+    try:
+        product = Product.objects.get(pk=product_id)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+    except Product.DoesNotExist:
+        return Response(status=404)
+
+
+@api_view(['GET'])
+def categories(request):
+    categories = Category.objects.all()  # Retrieve all categories from the database
+    serializer = CategorySerializer(categories, many=True)  # Serialize the queryset
+    return Response(serializer.data)  # Return serialized data in the response
+
+
 
 @api_view(['GET'])
 def category_detail(request, category_id):
@@ -30,18 +52,6 @@ def category_detail(request, category_id):
         return Response(serializer.data)
     except Category.DoesNotExist:
         return Response(status=404)
-
-@api_view(['GET'])
-def products(request):
-    products = Product.objects.all()  # Retrieve all categories from the database
-    serializer = ProductSerializer(products, many=True)  # Serialize the queryset
-    return Response(serializer.data)  # Return serialized data in the response
-
-@api_view(['GET'])
-def categories(request):
-    categories = Category.objects.all()  # Retrieve all categories from the database
-    serializer = CategorySerializer(categories, many=True)  # Serialize the queryset
-    return Response(serializer.data)  # Return serialized data in the response
 
 ##########################
 ################################## 

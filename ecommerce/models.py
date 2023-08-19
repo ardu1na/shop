@@ -93,6 +93,8 @@ class Location(ModelBase):
     state = models.CharField(null=True, blank=True, max_length=200)
     city = models.CharField(null=True, blank=True, max_length=200)
     post_code = models.PositiveSmallIntegerField(null=True, blank=True)
+    notes = models.TextField(null=True, blank= True)
+    is_home = models.BooleanField(default=False)
     
     def __str__ (self):
         return f'{self.client} address'
