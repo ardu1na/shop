@@ -6,7 +6,6 @@ from django.dispatch import receiver
 class ModelBase(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     date_updated = models.DateTimeField(auto_now=True, editable=False)
-    date_deleted = models.DateTimeField(editable=False, null=True)
     state = models.BooleanField(default=True)
     
     class Meta:
@@ -44,6 +43,8 @@ class Product(ModelBase):
 
     image = models.ImageField(blank=True, null=True, upload_to="media")
 
+    available = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.name
     
