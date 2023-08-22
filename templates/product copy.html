@@ -250,122 +250,49 @@
     </footer>    <!-- / Footer-->  
 
 
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    
     <script>
-        jQuery(document).ready(function($) {
-            const apiBaseUrl = 'http://127.0.0.1:8000';
-            const token = localStorage.getItem('token');
+        const apiBaseUrl = 'http://127.0.0.1:8000';
+
+        fetch(`${apiBaseUrl}/api/shop/categories`)
+            .then(response => response.json())
+            .then(data => {
+                renderCategories(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+        function renderCategories(categories) {
+            const categoriesContainer = document.getElementById('categories-container');
+
+            categories.forEach(category => {
+                const categoryLink = document.createElement('a');
+                categoryLink.className = 'dropdown-item';
+                categoryLink.href = `./category.html?category_id=${category.id}`; // Dynamic URL with category ID
+                categoryLink.textContent = category.name;
+
+                const categoryListItem = document.createElement('li');
+                categoryListItem.appendChild(categoryLink);
+
+                categoriesContainer.appendChild(categoryListItem);
+            });
+        }
+    </script>
 
 
-            function renderCategories(categories) {
-                const categoriesContainer = document.getElementById('categories-container');
-
-                categories.forEach(category => {
-                    const categoryLink = document.createElement('a');
-                    categoryLink.className = 'dropdown-item';
-                    categoryLink.href = `./category.html?category_id=${category.id}`; // Dynamic URL with category ID
-                    categoryLink.textContent = category.name;
     
-                    const categoryListItem = document.createElement('li');
-                    categoryListItem.appendChild(categoryLink);
-    
-                    categoriesContainer.appendChild(categoryListItem);
-                });
-            }            
+    <script>
 
-            
-            // Fetch and render categories
-            fetch(`${apiBaseUrl}/api/shop/categories`)
-                .then(response => response.json())
-                .then(data => {
-                    renderCategories(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching categories:', error);
-                });
+        document.addEventListener("DOMContentLoaded", function() {
 
+        // Function to extract query parameter value from URL                               
 
-
-
-
-
-
-            // Check user authentication and update UI
-            if (token) {
-                // Fetch and update user cart
-                fetch(`${apiBaseUrl}/api/shop/cart/`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Token ${token}`
-                    }
-                }).then(response => response.json())
-                    .then(data => {
-                        cart = data.cart;
-                        products = cart.products;
-        
-        
-                        let cartItemsHTML = '';  // Initialize an empty string to store the generated HTML
-        
-                        // Loop through each product in the cart and generate HTML
-                        products.forEach(product => {
-                            cartItemsHTML += `
-                                <!-- Cart Product -->
-                                <div class="row mx-0 py-4 g-0 border-bottom">
-                                    <div class="col-12">
-                                        <div>
-                                            <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                ${product.product_name}
-                                            </h6>
-                                        </div>
-                                        <p class="fw-bolder text-end text-muted m-0">$${product.subtotal.toFixed(2)}</p>
-                                    </div>
-                                </div>
-                            `;
-                        });
-        
-                        cartDropd.innerHTML = `
-                            <!-- Cart Header -->
-                            <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
-                                <h6 class="fw-bolder m-0">Cart Summary (${cart.products_q} items)</h6>
-                            </div>
-                            <!-- ... -->
-        
-                            <!-- Cart Items -->
-                            <div>
-                                ${cartItemsHTML}
-                            </div>
-                            <!-- /Cart Items -->
-        
-                            <!-- Cart Summary -->
-                            <div>
-                                <div class="pt-3">
-                                    <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-start mb-4 mb-md-2">
-                                        <div>
-                                            <p class="m-0 fw-bold fs-5">Grand Total</p>
-                                        </div>
-                                        <p class="m-0 fs-5 fw-bold">$${cart.total}</p>
-                                    </div>
-                                </div>
-                                <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button">View Cart</a>
-                                <a href="./checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button">Proceed To Checkout</a>
-                            </div>
-                            <!-- ... -->
-                        `;                    })
-                    .catch(error => {
-                        console.error('Error fetching cart:', error);
-                    });
-
-                $('#accountNav').html('<button class="btn nav-link text-body " id="logout-button">Logout</button>');
-            } else {
-                $('#accountNav').html('<a class="nav-link text-body" href="./users/login.html">Log in</a>');
-                $('#shopNav').html('<a class="nav-link text-body" href="./users/signup.html">Signup</a>');
-                
-            }
-
-
-
-
-function getQueryParam(param) {
+        function getQueryParam(param) {
             const urlSearchParams = new URLSearchParams(window.location.search);
             return urlSearchParams.get(param);
         }
@@ -422,38 +349,185 @@ function getQueryParam(param) {
 
 
 
-                // Function to log out the user
-        function logoutUser() {
-            // Remove the token from local storage
-            const token = localStorage.getItem('token');
-            localStorage.removeItem('token');
-   
-    
             
-            $.ajax({
-              url: 'http://127.0.0.1:8000/logout/',
-              type: 'POST',
-              headers: {
-                'Authorization': `Token ${token}`
-              },
-              success: function(response) {
-                // Handle successful logout
-                console.log(response.message);
-        
+            const addButton = document.getElementById('add-product');
+            if (addButton) {
+            // Attach click event to the container element
+                addButton.addEventListener('click', function(event) {
+                    console.log('Button clicked');
+                    console.log('Product ID:', productId);
+
                 
-              },
-              error: function(error) {
-                // Handle error
-                console.error('Error logging out:', error);
-              }
-            });
-  
-            location.reload();
-          }
-        
-          // Attach the logout function to the button click event
-          $('#logout-button').click(logoutUser);});
+                        // Check if the user is authenticated
+                        const token = localStorage.getItem('token');
+                        if (!token) {
+                            // User is not logged in, redirect to login page
+                            window.location.href = './users/login.html'; 
+                        } else {
+                            // User is logged in, proceed to add product
+                            addProductToCart(productId);
+                        }
+                    
+                });
+            };
+            
+
+
+            // Function to add a product to the cart
+            function addProductToCart(productId) {
+                fetch(`${apiBaseUrl}/api/shop/cart/add/${productId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response from the cart API if needed
+                    console.log('Product added to cart:', data);
+                    location.reload();
+
+                })
+                .catch(error => {
+                    console.error('Error adding product to cart:', error);
+                });
+            }
+        })
+            
     </script>
+
+
+    
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+        // JavaScript code to fetch user authentication status from Django API
+        const token = localStorage.getItem('token');
+        const accountNav = document.getElementById('accountNav');
+        const cartDropd = document.getElementById('cartDropd');
+        
+        let cart = {}; 
+
+        if (token) {
+            fetch('http://127.0.0.1:8000/api/shop/cart/', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${token}`
+                }
+            }).then(response => response.json())
+            .then(data => {
+                 
+                cart = data.cart;
+                products = cart.products;
+
+
+                let cartItemsHTML = '';  // Initialize an empty string to store the generated HTML
+
+                // Loop through each product in the cart and generate HTML
+                products.forEach(product => {
+                    cartItemsHTML += `
+                        <!-- Cart Product -->
+                        <div class="row mx-0 py-4 g-0 border-bottom">
+                            <div class="col-12">
+                                <div>
+                                    <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                        ${product.product_name}
+                                    </h6>
+                                </div>
+                                <p class="fw-bolder text-end text-muted m-0">$${product.subtotal.toFixed(2)}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                cartDropd.innerHTML = `
+                    <!-- Cart Header -->
+                    <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
+                        <h6 class="fw-bolder m-0">Cart Summary (${cart.products_q} items)</h6>
+                    </div>
+                    <!-- ... -->
+
+                    <!-- Cart Items -->
+                    <div>
+                        ${cartItemsHTML}
+                    </div>
+                    <!-- /Cart Items -->
+
+                    <!-- Cart Summary -->
+                    <div>
+                        <div class="pt-3">
+                            <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-start mb-4 mb-md-2">
+                                <div>
+                                    <p class="m-0 fw-bold fs-5">Grand Total</p>
+                                </div>
+                                <p class="m-0 fs-5 fw-bold">$${cart.total}</p>
+                            </div>
+                        </div>
+                        <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button">View Cart</a>
+                        <a href="./checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button">Proceed To Checkout</a>
+                    </div>
+                    <!-- ... -->
+                `;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+
+            accountNav.innerHTML = '<button class="btn nav-link text-body " id="logout-button">Logout</button>';
+            
+            
+     
+            } else {
+                accountNav.innerHTML = '<a class="nav-link text-body" href="./users/login.html">Log in</a>';
+
+                shopNav.innerHTML = '<a class="nav-link text-body" href="./users/signup.html">Signup</a>';
+            }
+        });
+
+    </script>
+
+
+
+
+
+    <script>
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+        // Function to log out the user
+        function logoutUser() {
+          // Remove the token from local storage
+          const token = localStorage.getItem('token');
+          localStorage.removeItem('token');
+ 
+  
+          
+          $.ajax({
+            url: 'http://127.0.0.1:8000/logout/',
+            type: 'POST',
+            headers: {
+              'Authorization': `Token ${token}`
+            },
+            success: function(response) {
+              // Handle successful logout
+              console.log(response.message);
+      
+              
+            },
+            error: function(error) {
+              // Handle error
+              console.error('Error logging out:', error);
+            }
+          });
+
+          location.reload();
+        }
+      
+        // Attach the logout function to the button click event
+        $('#logout-button').click(logoutUser);})
+      </script>
 
 
 
