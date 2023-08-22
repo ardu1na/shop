@@ -417,6 +417,37 @@ function getQueryParam(param) {
                 <button class="btn btn-dark w-100 mt-4 mb-0 hover-lift-sm hover-boxshadow" id="add-product">Add To Shopping Bag</button>
                 `;
 
+                                
+                // Add event listener to the "Add To Shopping Bag" button
+                const addButton = document.getElementById('add-product');
+                addButton.addEventListener('click', function() {
+                    console.log('Add To Shopping Bag button clicked');
+                    console.log('Product ID:', productId);
+
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        // User is not logged in, redirect to login page
+                        window.location.href = './users/login.html'; 
+                    } else {
+                        // User is logged in, proceed to add product
+                        fetch(`${apiBaseUrl}/api/shop/cart/add/${productId}/`, {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': `Token ${token}`
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Handle the response from the cart API if needed
+                            console.log('Product added to cart:', data);
+                            location.reload();
+        
+                        })
+                        .catch(error => {
+                            console.error('Error adding product to cart:', error);
+                        });
+                    }                });
+
                 };
             };
 
