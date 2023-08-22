@@ -47,6 +47,7 @@ class CartSerializer(serializers.ModelSerializer):
 
 class ProductCartSerializer(serializers.ModelSerializer):
     product_name = serializers.ReadOnlyField(source='product.name')
+    product_id = serializers.ReadOnlyField(source='product.id')
     image = serializers.ImageField(source='product.image')
 
     class Meta:
