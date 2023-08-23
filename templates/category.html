@@ -291,9 +291,9 @@
                                 <button data-product-id="${product.id}" class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
 
                                 <div class="card-body px-0">
-                                    <a  data-product-id="${product.id}"  class="add-product-link text-decoration-none " href="#">${product.name}</a>
+                                    <a class="add-product-link text-decoration-none " href="./product.html?product_id=${product.id}">${product.name}
                                     <small class="text-muted d-block">${product.description} </small>
-                                    <p class="mt-2 mb-0 small">$${product.price.toFixed(2)}</p>
+                                    <p class="mt-2 mb-0 small">$${product.price.toFixed(2)}</p></a>
                                 </div>
                             </div>
                     <!--/ Card Product-->
@@ -332,12 +332,14 @@
                                         <img class="w-100 img-fluid position-relative z-index-10" src="${apiBaseUrl}/${product.image}" alt="">
                                     </picture>
                                 </div>
+
+
                                 <button data-product-id="${product.id}" class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
 
                                 <div class="card-body px-0">
-                                    <a  href="#" class="add-product-link text-decoration-none ">${product.name}</a>
+                                    <a href="./product.html?product_id=${product.id}" class="add-product-link text-decoration-none ">${product.name}
                                     <small class="text-muted d-block">${product.description} </small>
-                                    <p class="mt-2 mb-0 small">$${product.price.toFixed(2)}</p>
+                                    <p class="mt-2 mb-0 small">$${product.price.toFixed(2)}</p></a>
                                 </div>
                             </div>
                     <!--/ Card Product-->
