@@ -87,13 +87,14 @@
     
                         <!-- Navbar Cart Icon-->
                         <li id="shopNav" class="ms-1 d-inline-block position-relative dropdown-cart">
-                            <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
-                            type="button"> Bag </button>
+                            <a href="./cart.html" class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body">
+                                Bag
+                            </a>
+                            
                             <div id="cartDropd" class="cart-dropdown dropdown-menu">
                                 <!-- Content will be updated dynamically here -->
 
                             </div>             
-    
                         </li>
                         <!-- /Navbar Cart Icon-->
     
@@ -281,11 +282,11 @@
                     <!-- Card Product-->
                             <div class="card border border-transparent position-relative overflow-hidden h-100 transparent">
                                 <div class="card-img position-relative">
-                                   
-                                    <picture class="position-relative overflow-hidden d-block bg-light">
-                                        <img class="w-100 img-fluid position-relative z-index-10" src="${apiBaseUrl}/${product.image}" alt="">
-                                    </picture>
-
+                                    <a href="./product.html?product_id=${product.id}">
+                                        <picture class="position-relative overflow-hidden d-block bg-light">
+                                            <img class="w-100 img-fluid position-relative z-index-10" src="${apiBaseUrl}/${product.image}" alt="">
+                                        </picture>
+                                    </a>
                                         
                                 </div>
                                 <button data-product-id="${product.id}" class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
@@ -327,10 +328,12 @@
                     <!-- Card Product-->
                             <div   class="card border border-transparent position-relative overflow-hidden h-100 transparent">
                                 <div class="card-img position-relative">
-                                   
+                                    <a href="./product.html?product_id=${product.id}">
+
                                     <picture class="position-relative overflow-hidden d-block bg-light">
                                         <img class="w-100 img-fluid position-relative z-index-10" src="${apiBaseUrl}/${product.image}" alt="">
                                     </picture>
+                                </a>
                                 </div>
 
 
@@ -399,6 +402,7 @@
                 });
 
                 cartDropd.innerHTML = `
+                
                     <!-- Cart Header -->
                     <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
                         <h6 class="fw-bolder m-0">Cart Summary (${cart.products_q} items)</h6>
