@@ -81,4 +81,4 @@ class LogoutView(APIView):
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def test_token(request):
-    return Response({"valid": True})  # Replace True with False if the token is invalid
+    return Response({"valid": True})  
