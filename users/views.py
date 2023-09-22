@@ -1,84 +1,127 @@
-
+from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
 
-from rest_framework.views import APIView
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status, viewsets
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework.decorators import action
 
-from rest_framework.authtoken.models import Token
-from users.serializers import UserSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-
-## TODO ##
-# view for restore password
-# signup with email confirmation
-
-
-# delete session when user is off after certain ammout of time ---
-# Token has a datetime field named 'created' 
-# so i can use cronjobs to check and delete token after certain amount of time  
-# but what about session, what if we delete token when user is using it? -as cloudflare does haha -
+from users.serializers import (
+    CustomTokenObtainPairSerializer, CustomUserSerializer,\
+        UserSerializer, UserListSerializer, UpdateUserSerializer,
+    PasswordSerializer
+)
+from users.models import CustomUser
 
 
 
+class UserViewSet(viewsets.GenericViewSet):
+    model = CustomUser
+    serializer_class = UserSerializer
+    list_serializer_class = UserListSerializer
+    queryset = None
 
-@api_view(['POST'])
-def signup(request):
-    serializer = UserSerializer(data=request.data)
-    if serializer.is_valid():
-        username = serializer.validated_data['username']
-        email = serializer.validated_data['email']
-        
-        # Check if a user with the given username already exists
-        if User.objects.filter(username=username).exists():
-            return Response({'error': 'Username already taken'}, status=status.HTTP_409_CONFLICT)  # HTTP 409 Conflict
-        
-        # Check if a user with the given email already exists
-        if User.objects.filter(email=email).exists():
-            return Response({'error': 'Email already taken'}, status=status.HTTP_409_CONFLICT)  # HTTP 409 Conflict
-        
-        user = serializer.save()
-        user.set_password(request.data['password'])
-        user.save()
-        
-        token = Token.objects.create(user=user)
-        return Response({'token': token.key, 'user': serializer.data}, status=status.HTTP_201_CREATED)
+    def get_object(self, pk):
+        return get_object_or_404(self.model, pk=pk)
+
+    def get_queryset(self):
+        if self.queryset is None:
+            self.queryset = self.model.objects\
+                            .filter(is_active=True)\
+                            .values('id', 'username', 'email')
+        return self.queryset
+
+    @action(detail=True, methods=['post'])
+    def set_password(self, request, pk=None):
+        user = self.get_object(pk)
+        password_serializer = PasswordSerializer(data=request.data)
+        if password_serializer.is_valid():
+            user.set_password(password_serializer.validated_data['password'])
+            user.save()
+            return Response({
+                'message': 'Contraseña actualizada correctamente'
+            })
+        return Response({
+            'message': 'Hay errores en la información enviada',
+            'errors': password_serializer.errors
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    def list(self, request):
+        users = self.get_queryset()
+        users_serializer = self.list_serializer_class(users, many=True)
+        return Response(users_serializer.data, status=status.HTTP_200_OK)
     
-    return Response({'error': 'Username or email already taken'}, status=status.HTTP_409_CONFLICT)
+    def create(self, request):
+        user_serializer = self.serializer_class(data=request.data)
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return Response({
+                'message': 'Usuario registrado correctamente.'
+            }, status=status.HTTP_201_CREATED)
+        return Response({
+            'message': 'Hay errores en el registro',
+            'errors': user_serializer.errors
+        }, status=status.HTTP_400_BAD_REQUEST)
 
-
-@api_view(['POST'])
-def login(request):
-    if request.user.is_authenticated:
-        return Response({'message': f'You are logged in already, {request.user.username}!'}, status=status.HTTP_200_OK)
+    def retrieve(self, request, pk=None):
+        user = self.get_object(pk)
+        user_serializer = self.serializer_class(user)
+        return Response(user_serializer.data)
     
-    user = get_object_or_404(User, username=request.data['username'])
-    if not user.check_password(request.data['password']):
-        return Response("User not found", status=status.HTTP_404_NOT_FOUND)
-    
-    token, created = Token.objects.get_or_create(user=user)
-    serializer = UserSerializer(user)
-    return Response({'token': token.key, 'user': serializer.data})
+    def update(self, request, pk=None):
+        user = self.get_object(pk)
+        user_serializer = UpdateUserSerializer(user, data=request.data)
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return Response({
+                'message': 'Usuario actualizado correctamente'
+            }, status=status.HTTP_200_OK)
+        return Response({
+            'message': 'Hay errores en la actualización',
+            'errors': user_serializer.errors
+        }, status=status.HTTP_400_BAD_REQUEST)
 
-class LogoutView(APIView):
-    
-    def post(self, request):
-        user = request.user
-        token = get_object_or_404(Token, user=user)
-        token.delete()
-        return Response({'message': f'Goodbye, {user.username}!'}, status=status.HTTP_200_OK)
+    def destroy(self, request, pk=None):
+        user_destroy = self.model.objects.filter(id=pk).update(is_active=False)
+        if user_destroy == 1:
+            return Response({
+                'message': 'Usuario eliminado correctamente'
+            })
+        return Response({
+            'message': 'No existe el usuario que desea eliminar'
+        }, status=status.HTTP_404_NOT_FOUND)
 
+class Login(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
+    def post(self, request, *args, **kwargs):
+        username = request.data.get('username', '')
+        password = request.data.get('password', '')
+        user = authenticate(
+            username=username,
+            password=password
+        )
 
+        if user:
+            login_serializer = self.serializer_class(data=request.data)
+            if login_serializer.is_valid():
+                user_serializer = CustomUserSerializer(user)
+                return Response({
+                    'token': login_serializer.validated_data.get('access'),
+                    'refresh-token': login_serializer.validated_data.get('refresh'),
+                    'user': user_serializer.data,
+                    'message': 'Inicio de Sesion Existoso'
+                }, status=status.HTTP_200_OK)
+            return Response({'error': 'Contraseña o nombre de usuario incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Contraseña o nombre de usuario incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
-
-
-@api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def test_token(request):
-    return Response({"valid": True})  
+class Logout(GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        user = CustomUser.objects.filter(id=request.data.get('user', 0))
+        if user.exists():
+            RefreshToken.for_user(user.first())
+            return Response({'message': 'Sesión cerrada correctamente.'}, status=status.HTTP_200_OK)
+        return Response({'error': 'No existe este usuario.'}, status=status.HTTP_400_BAD_REQUEST)

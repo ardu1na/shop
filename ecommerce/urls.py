@@ -1,7 +1,7 @@
 from django.urls import path, include
+from rest_framework import routers
 
 from ecommerce import views
-from rest_framework import routers
 from ecommerce.viewsets import ProductViewSet, CategoryViewSet, CartViewSet
 
 router = routers.DefaultRouter()
