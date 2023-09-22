@@ -51,8 +51,17 @@ class Product(ModelBase):
 class ProductImage(ModelBase):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(blank=True, null=True, upload_to="products")
-
+    alt = models.CharField(max_length=50, null=True, blank=True)
     
+    def save(self, *args, **kwargs):
+        if self.alt is None:
+            self.alt = f'product {self.product.name}'
+        super().save(*args,**kwargs)
+    
+    
+    def __str__ (self):
+        
+        return self.alt
 
 ## TODO: clean phone number    
 class Client(ModelBase):
@@ -194,11 +203,8 @@ class Order(ModelBase):
     @property
     def products(self):
         
-        cart_products = self.cart.products.all()
-        products = []
-        for product in cart_products:
-            products.append(product.product)
-        return products
+        return [cart_product.product for cart_product in self.cart.products.select_related('product').all()]
+
     
     
     @property
@@ -207,7 +213,6 @@ class Order(ModelBase):
         return self.cart.total
 
 
-# Signal function to create an Order instance when Cart.done is True
 @receiver(post_save, sender=Cart)
 def create_order_on_cart_done(sender, instance, created, **kwargs):
     if instance.done:
