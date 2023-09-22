@@ -1,23 +1,21 @@
-from django.urls import path
+from django.urls import path, include
 
 from ecommerce import views
+from rest_framework import routers
+from ecommerce.viewsets import ProductViewSet, CategoryViewSet, CartViewSet
+
+router = routers.DefaultRouter()
+router.register(r'products', ProductViewSet)
+router.register(r'categories', CategoryViewSet)
+router.register(r'carts', CartViewSet)
 
 urlpatterns = [
-    # display 
-    path('categories/', views.categories),
-    path('category/<int:category_id>/', views.category_detail),
-    path('products/', views.products),
-    path('product/<int:product_id>/', views.product_detail),
+  
+   
+    path('users/profile/', views.client_profile),
+    path('users/profile/update/', views.update_client_profile),
+    path('users/profile/location/', views.add_client_location),
 
-    # shop
-    path('cart/add/<int:product_id>/', views.add_product_into_cart),
-    path('cart/delete/<int:product_id>/', views.delete_product_from_cart),
-    path('cart/', views.cart_detail),
-    
-    # client
-    path('profile/', views.client_profile),
-    path('profile/update/', views.update_client_profile),
-    path('profile/location/', views.add_client_location),
-
+    path('ecommerce/', include(router.urls)),
 
 ]
