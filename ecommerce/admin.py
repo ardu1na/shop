@@ -4,7 +4,6 @@ from ecommerce.models import Product, ProductCart, Cart, Client, \
     Category, Subcategory, Location, PayMethod, Order, ProductImage
 
 
-admin.site.register(ProductImage)
 
 admin.site.register(Order)
 admin.site.register(ProductCart)
@@ -13,7 +12,8 @@ admin.site.register(ProductCart)
 class ImageInline(admin.StackedInline):
     model = ProductImage
     extra = 0
-    
+admin.site.register(ProductImage)
+
 
 
 class ProductAdmin(admin.ModelAdmin):

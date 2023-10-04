@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.core.exceptions import ValidationError
 
 class ModelBase(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -37,13 +38,23 @@ class Product(ModelBase):
     
     price = models.IntegerField()
     
+    brand = models.CharField(max_length=200, null=True, blank=True)
+    
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name='products')
 
-    image = models.ImageField(blank=True, null=True, upload_to="media")
-
+    
+    stock = models.PositiveSmallIntegerField(default=0)
     available = models.BooleanField(default=False)
     
+    
+
+    def save(self, *args, **kwargs):
+        if self.stock < 1:
+            self.available = False
+        super().save(*args,**kwargs)
+    
+        
     def __str__(self):
         return self.name
     
@@ -51,10 +62,19 @@ class Product(ModelBase):
 class ProductImage(ModelBase):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(blank=True, null=True, upload_to="products")
-
+    alt = models.CharField(max_length=250, null=True, blank=True)
+    
+    def save(self, *args, **kwargs):
+        if self.alt is None:
+            self.alt = f'product {self.product.name}'
+        super().save(*args,**kwargs)
+    
+    
+    def __str__ (self):
+        
+        return self.alt
     
 
-## TODO: clean phone number    
 class Client(ModelBase):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
     name = models.CharField(max_length=200, blank=True, null=True)
@@ -140,14 +160,17 @@ class ProductCart(ModelBase):
     def __str__(self):
         date_time = self.date_created.strftime('%H:%M %d/%m')
         return f'{self.product} ({self.ammount} u.) ${self.subtotal}'
-    
+        
+    def clean(self):
+        if self.ammount > self.product.stock:
+            raise ValidationError("La cantidad solicitada excede la cantidad disponible.")
+
     def save(self, *args, **kwargs):
         if self.ammount != 0:
             self.subtotal = self.product.price * self.ammount
-        else:
-            self.subtotal = 0
+        self.clean()
         super().save(*args, **kwargs)
-
+    
 @receiver(post_save, sender=ProductCart)
 @receiver(post_delete, sender=ProductCart)
 def update_cart(sender, instance, **kwargs):
@@ -178,10 +201,18 @@ class Order(ModelBase):
     closed = models.BooleanField(default=False)
     
     def save(self, *args, **kwargs):
-        if self.paid == True and self.sended == True:
-            self.closed == True
+        if self.paid and self.sended and not self.closed:
+            self.closed = True
+            self.decrease_product_stock()
         super().save(*args, **kwargs)
 
+
+    def decrease_product_stock(self):
+        products_in_order = self.cart.products.all()
+        for product_in_order in products_in_order:
+            product = product_in_order.product
+            product.stock -= product_in_order.ammount
+            product.save()
     
     def __str__(self):
         if self.closed == True:
@@ -207,7 +238,6 @@ class Order(ModelBase):
         return self.cart.total
 
 
-# Signal function to create an Order instance when Cart.done is True
 @receiver(post_save, sender=Cart)
 def create_order_on_cart_done(sender, instance, created, **kwargs):
     if instance.done:
