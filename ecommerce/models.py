@@ -45,7 +45,7 @@ class Product(ModelBase):
 
     image = models.ImageField(blank=True, null=True, upload_to="products")
 
-    stock = models.PositiveSmallIntegerField(default=0)
+    stock = models.PositiveSmallIntegerField(default=0, null=True, blank=True)
     available = models.BooleanField(default=False)
     
     
@@ -53,6 +53,8 @@ class Product(ModelBase):
     def save(self, *args, **kwargs):
         if self.stock < 1:
             self.available = False
+        else:
+            self.available = True
         super().save(*args,**kwargs)
     
         
@@ -101,9 +103,9 @@ def create_client_on_new_user(sender, instance, created, **kwargs):
     
 class Cart(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts')
-    total = models.PositiveIntegerField(default=0)
+    total = models.PositiveIntegerField(default=0, null=True, blank=True)
     done = models.BooleanField(default=False)
-    products_q = models.SmallIntegerField(default=0)
+    products_q = models.SmallIntegerField(default=0, null=True, blank=True)
     
     def __str__(self):
         date_time = self.date_created.strftime('%H:%M %d/%m')
@@ -115,7 +117,7 @@ class ProductCart(ModelBase):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='products')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='carts')
     ammount = models.PositiveSmallIntegerField(default=1)
-    subtotal = models.IntegerField(default=0)
+    subtotal = models.IntegerField(default=0, null=True, blank=True)
 
 
     def __str__(self):
