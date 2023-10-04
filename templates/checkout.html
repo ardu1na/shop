@@ -106,6 +106,14 @@
                                   </div>
                                 </div>
 
+                                <!-- Address-->
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                      <label for="phone" class="form-label">Address</label>
+                                      <input type="text" class="form-control" id="address" placeholder="Avenida 234, Rio Cuarto, Córdoba, Argentina" value="" required="">
+                                    </div>
+                                  </div>
+
 
                                 <div class="py-2">
                                   <div class="input-group mb-0 d-flex flex-row-reverse">
@@ -142,7 +150,7 @@
                         </div>
                         <div class="py-4">
                           <div class="pb-5 d-flex justify-content-md-end align-items-center">
-                            <a href="./checkout-payment.html" class="btn btn-dark w-100 w-md-auto" role="button">Proceed to payment</a>
+                            <a href="#" class="btn btn-dark w-100 w-md-auto" role="button">Proceed to payment</a>
                           </div>    
                         </div>
                     </div>
@@ -188,12 +196,14 @@
           const nameProfile = document.getElementById('name').value;
           const lastnameProfile = document.getElementById('lastname').value;
           const phoneProfile = document.getElementById('phone').value;
+          const addressProfile = document.getElementById('address').value;
 
           // Construct the form data
           const formData = new FormData();
           formData.append('name', nameProfile);
           formData.append('lastname', lastnameProfile);
           formData.append('phone', phoneProfile);
+          formData.append('address', addressProfile);
 
           fetch('http://127.0.0.1:8000/api/shop/profile/update/', {
               method: 'POST',
