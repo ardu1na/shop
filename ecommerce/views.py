@@ -25,12 +25,11 @@ from ecommerce.serializers import \
 
 @api_view(['GET'])
 def products(request):
-    products = Product.objects.all()  # Retrieve all categories from the database
-    serializer = ProductSerializer(products, many=True)  # Serialize the queryset
-    return Response(serializer.data)  # Return serialized data in the response
+    products = Product.objects.all()  
+    serializer = ProductSerializer(products, many=True)  
+    return Response(serializer.data)  
 
 
-## TODO: INTEGRATE WITH FRONT END
 @api_view(['GET'])
 def product_detail(request, product_id):
     try:
@@ -43,9 +42,9 @@ def product_detail(request, product_id):
 
 @api_view(['GET'])
 def categories(request):
-    categories = Category.objects.all()  # Retrieve all categories from the database
-    serializer = CategorySerializer(categories, many=True)  # Serialize the queryset
-    return Response(serializer.data)  # Return serialized data in the response
+    categories = Category.objects.all()  
+    serializer = CategorySerializer(categories, many=True)  
+    return Response(serializer.data) 
 
 
 
@@ -170,9 +169,4 @@ def cart_detail(request):
         cart_serializer = CartDetailSerializer(instance=cart)
         return Response({'cart':cart_serializer.data}, status=status.HTTP_200_OK)
     
-
-
-### TODO
-# link to productdetail in cart for each item
-# checkout - cart done
 
