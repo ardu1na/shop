@@ -43,7 +43,8 @@ class Product(ModelBase):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name='products')
 
-    
+    image = models.ImageField(blank=True, null=True, upload_to="products")
+
     stock = models.PositiveSmallIntegerField(default=0)
     available = models.BooleanField(default=False)
     
@@ -58,21 +59,6 @@ class Product(ModelBase):
     def __str__(self):
         return self.name
     
-
-class ProductImage(ModelBase):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageField(blank=True, null=True, upload_to="products")
-    alt = models.CharField(max_length=250, null=True, blank=True)
-    
-    def save(self, *args, **kwargs):
-        if self.alt is None:
-            self.alt = f'product {self.product.name}'
-        super().save(*args,**kwargs)
-    
-    
-    def __str__ (self):
-        
-        return self.alt
     
 
 class Client(ModelBase):
@@ -80,6 +66,7 @@ class Client(ModelBase):
     name = models.CharField(max_length=200, blank=True, null=True)
     lastname = models.CharField(max_length=200, blank=True, null=True)
     phone = models.CharField(max_length=200, blank=True, null=True)
+    address = models.CharField(max_length=750, null=True, blank=True)
 
     def __str__(self):
         if self.name and self.lastname:
@@ -107,32 +94,6 @@ def create_client_on_new_user(sender, instance, created, **kwargs):
     except Client.DoesNotExist:
         client = Client.objects.create(user=instance)
        
-class Location(ModelBase):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='locations')
-    
-    address = models.CharField(max_length=450, null=True, blank=True)
-    address_number = models.PositiveSmallIntegerField(null=True, blank=True)
-    apartament =  models.CharField(null=True, blank=True, max_length=500)
-    country = models.CharField(null=True, blank=True, max_length=200)
-    state = models.CharField(null=True, blank=True, max_length=200)
-    city = models.CharField(null=True, blank=True, max_length=200)
-    post_code = models.PositiveSmallIntegerField(null=True, blank=True)
-    notes = models.TextField(null=True, blank= True)
-    is_home = models.BooleanField(default=False)
-    
-    def __str__ (self):
-        return f'{self.client} address'
-    
-    
-    
-    
-    
-class PayMethod(ModelBase):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='pay_methods')
-
-    def __str__(self):
-        return f'{self.client} paymethod'
-    
     
     
     
@@ -193,9 +154,7 @@ class Order(ModelBase):
     cart = models.OneToOneField(Cart, related_name="order", on_delete=models.CASCADE)
     
     paid = models.BooleanField(default=False)
-    paymethod = models.ForeignKey(PayMethod, on_delete=models.CASCADE, related_name='orders', blank=True, null=True)
     
-    shipping_address = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='orders', blank=True, null=True)
     sended = models.BooleanField(default=False)
     
     closed = models.BooleanField(default=False)
@@ -206,6 +165,9 @@ class Order(ModelBase):
             self.decrease_product_stock()
         super().save(*args, **kwargs)
 
+    @property
+    def client_address(self):
+        return self.cart.client.address
 
     def decrease_product_stock(self):
         products_in_order = self.cart.products.all()

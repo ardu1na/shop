@@ -1,24 +1,14 @@
 from django.contrib import admin
 
 from ecommerce.models import Product, ProductCart, Cart, Client, \
-    Category, Subcategory, Location, PayMethod, Order, ProductImage
+    Category, Subcategory, Order
 
 
 
 admin.site.register(Order)
 admin.site.register(ProductCart)
+admin.site.register(Product)
 
-
-class ImageInline(admin.StackedInline):
-    model = ProductImage
-    extra = 0
-admin.site.register(ProductImage)
-
-
-
-class ProductAdmin(admin.ModelAdmin):
-    inlines= [ImageInline,]
-admin.site.register(Product, ProductAdmin)
 
 class SubcategoryInline(admin.StackedInline):
     model = Subcategory
@@ -30,18 +20,7 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 
-class LocationInline(admin.StackedInline):
-    model = Location
-    extra = 0
-    
-
-class PayInline(admin.StackedInline):
-    model = PayMethod
-    extra = 0
-
-class ClientAdmin(admin.ModelAdmin):
-    inlines = [LocationInline, PayInline]
-admin.site.register(Client, ClientAdmin)
+admin.site.register(Client)
 
 
 

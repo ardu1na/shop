@@ -7,12 +7,12 @@ from rest_framework.response import Response
 
 from ecommerce.models import Category, Product, \
     Cart, ProductCart,\
-    Client, Location
+    Client
     
 from ecommerce.serializers import \
     CategorySerializer, ProductSerializer, CategoryDetailSerializer, \
     CartSerializer, CartDetailSerializer, ProductCartSerializer,\
-    ClientProfileSerializer, LocationSerializer
+    ClientProfileSerializer
 
 
 
@@ -62,31 +62,7 @@ def category_detail(request, category_id):
 ################################## 
 
 ### CLIENT
-
-# create or change location
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def add_client_location(request):
-    client = request.user.client
-    location, created = Location.objects.get_or_create(client=client)
-    
-    serializer = LocationSerializer(data=request.data, instance=location)
-    if serializer.is_valid():
-        location.address = serializer.validated_data['address']
-        location.address_number = serializer.validated_data['address_number']
-        location.apartament = serializer.validated_data['apartament']
-        location.country = serializer.validated_data['country']
-        location.state = serializer.validated_data['state']
-        location.city = serializer.validated_data['city']
-        location.post_code = serializer.validated_data['post_code']
-
-        location.save()
-        return Response({'data':serializer.data}, status=status.HTTP_201_CREATED)
-    else:
-        print(serializer.errors)
-        return Response(status=404)
-    
+ 
     
     
 
@@ -120,6 +96,7 @@ def update_client_profile(request):
             client.name = serializer.validated_data['name']
             client.lastname = serializer.validated_data['lastname']
             client.phone = serializer.validated_data['phone']
+            client.address = serializer.validated_data['address']
             client.save()
             return Response({'data':serializer.data}, status=status.HTTP_202_ACCEPTED)
         else:
