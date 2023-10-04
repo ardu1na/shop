@@ -12,8 +12,8 @@ python -m venv env
 
 
 ### activar entorno virtual (1° y cada vez que se inicie el servidor):
-en linux o git bash:
 ```bash
+source env/Scripts/activate
 ```
 
 
