@@ -51,7 +51,7 @@ py manage.py runserver
 
 
 
-### acceder al panel de administración en el navegador:
+#### acceder al panel de administración en el navegador:
 http://127.0.0.1:8000/admin/
 
 
