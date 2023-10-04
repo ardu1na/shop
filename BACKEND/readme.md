@@ -1,6 +1,6 @@
 #### GUIA DE SET UP
 
-#### Create a Virtual Environment (First Time Only)
+#### Crear entorno virtual (1° vez):
 
 ```bash
 python -m venv env
