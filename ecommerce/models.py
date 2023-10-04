@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
+from users.models import CustomUser
 class ModelBase(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     date_updated = models.DateTimeField(auto_now=True, editable=False)
@@ -65,7 +65,7 @@ class ProductImage(ModelBase):
 
 ## TODO: clean phone number    
 class Client(ModelBase):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='client')
     name = models.CharField(max_length=200, blank=True, null=True)
     lastname = models.CharField(max_length=200, blank=True, null=True)
     phone = models.CharField(max_length=200, blank=True, null=True)
@@ -89,7 +89,7 @@ class Client(ModelBase):
         
         
 # Signal function to create a client
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=CustomUser)
 def create_client_on_new_user(sender, instance, created, **kwargs):    
     try:
         client = Client.objects.get(user=instance)
