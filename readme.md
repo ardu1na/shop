@@ -4,3 +4,20 @@
 #### i get free template < OldSkool | Bootstrap 5 HTML Template > for testing from:
 ### Pixel Rocket
 thanks guys <3
+
+
+
+
+
+
+python -m venv env
+source env/Scripts/activate (en linux o git bash)
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+
+py manage.py makemigrations users ecommerce
+py manage.py migrate
+py manage.py createsuperuser
+
+
+py manage.py runserver
