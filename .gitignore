@@ -8,8 +8,4 @@ migrations/
 env/
 .env
 media/
-frontend/
 .vscode
-templates/users/assets/
-templates/oldskool/assets/
-templates/assets/
