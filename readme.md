@@ -1,3 +1,8 @@
+#### TODO: details on FE. add qantity into product
+
+
+
+
 #### SETUP
 
 

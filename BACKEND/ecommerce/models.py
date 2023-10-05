@@ -20,8 +20,11 @@ class Category(ModelBase):
         return self.name
     
     class Meta:
-        verbose_name_plural = "Categories"
-    
+        verbose_name_plural = "Categorías"
+        verbose_name = "Categoría"
+        
+        
+        
 class Product(ModelBase):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=3000)
@@ -50,6 +53,9 @@ class Product(ModelBase):
     def __str__(self):
         return self.name
     
+    class Meta:
+        verbose_name_plural = "Productos"
+        verbose_name = "Producto"
     
 
 class Client(ModelBase):
@@ -75,7 +81,10 @@ class Client(ModelBase):
         return self.user.email
         
         
-        
+    class Meta:
+        verbose_name_plural = "Clientes"
+        verbose_name = "Cliente"
+    
         
 # Signal function to create a client
 @receiver(post_save, sender=User)
@@ -100,7 +109,10 @@ class Cart(ModelBase):
         date_time = self.date_created.strftime('%H:%M %d/%m')
         return f'{self.client} Cart - {date_time}'
     
-   
+    class Meta:
+        verbose_name_plural = "Carrito"
+        verbose_name = "Carritos"
+    
        
 class ProductCart(ModelBase):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='products')
@@ -122,6 +134,10 @@ class ProductCart(ModelBase):
             self.subtotal = self.product.price * self.ammount
         self.clean()
         super().save(*args, **kwargs)
+        
+    class Meta:
+        verbose_name_plural = "Producto en Carrito"
+        verbose_name = "Productos en carrito"
     
 @receiver(post_save, sender=ProductCart)
 @receiver(post_delete, sender=ProductCart)
@@ -189,6 +205,11 @@ class Order(ModelBase):
     def total(self):
         
         return self.cart.total
+    
+    
+    class Meta:
+        verbose_name_plural = "Órdenes de compra"
+        verbose_name = "Orden de compra"
 
 
 @receiver(post_save, sender=Cart)
