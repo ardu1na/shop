@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ecommerce.models import \
-        Category, Subcategory, Product,\
+        Category,  Product,\
         Cart, ProductCart,\
         Client
 
@@ -9,22 +9,14 @@ from ecommerce.models import \
 ##########################
 ################################## Main Products and Categories Display 
 
-class SubcategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subcategory
-        fields = '__all__'
-
 class ProductSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
-    subcategory_name = serializers.ReadOnlyField(source='subcategory.name')
 
     class Meta:
         model = Product
         fields = '__all__'
-        #fields = ['id','name','description','price','image','available','category_name', 'subcategory_name']
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
-    subcategories = SubcategorySerializer(many=True)
     products = ProductSerializer(many=True)
 
     class Meta:

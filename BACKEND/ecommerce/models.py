@@ -22,26 +22,15 @@ class Category(ModelBase):
     class Meta:
         verbose_name_plural = "Categories"
     
-class Subcategory(ModelBase):
-    name = models.CharField(max_length=200)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='subcategories')
-    def __str__(self):
-            return self.name     
-    
-    class Meta:
-        verbose_name_plural = "Subcategories"
-
-
 class Product(ModelBase):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=3000)
     
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=15, decimal_places=2)
     
     brand = models.CharField(max_length=200, null=True, blank=True)
     
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, related_name='products')
 
     image = models.ImageField(blank=True, null=True, upload_to="products")
 

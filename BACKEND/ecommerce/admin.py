@@ -1,27 +1,20 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-
+from ecommerce.resources import ProductResource
 from ecommerce.models import Product, ProductCart, Cart, Client, \
-    Category, Subcategory, Order
+    Category, Order
+
+class ProductAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    resource_class = ProductResource
+admin.site.register(Product, ProductAdmin)
 
 
 
 admin.site.register(Order)
 admin.site.register(ProductCart)
 
-class ProductAdmin(ImportExportModelAdmin):
-    resource_class = ImportExportModelAdmin
-admin.site.register(Product, ProductAdmin)
 
-
-class SubcategoryInline(admin.StackedInline):
-    model = Subcategory
-    extra = 0
-
-
-class CategoryAdmin(admin.ModelAdmin):
-    inlines = [SubcategoryInline]
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(Category)
 
 
 admin.site.register(Client)
