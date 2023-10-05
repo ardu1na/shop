@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <!-- Head -->
 <head>
@@ -43,7 +43,7 @@
   </noscript>
 
   <!-- Page Title -->
-  <title>Ardu1na | e-commerce</title>
+  <title>E&J Computación | e-commerce</title>
 
 </head>
 <body class="">
@@ -65,11 +65,10 @@
                         <nav class="d-none d-md-block">
                             <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
                                 <li class="me-4"><a class="nav-link-checkout "
-                                        href="./cart.html">Your Cart</a></li>
+                                        href="./cart.html">Carrito</a></li>
                                 <li class="me-4"><a class="nav-link-checkout active"
-                                        href="./checkout.html">Information</a></li>
-                                                                <li><a class="nav-link-checkout nav-link-last "
-                                        href="./checkout-payment.html">Payment</a></li>
+                                        href="./checkout.html">Información</a></li>
+                                                                
                             </ul>
                         </nav>                        <div class="mt-5">
 
@@ -78,14 +77,14 @@
 
                             <!-- Checkout Panel Information-->
                             <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-4">
-                              <h3 class="fs-5 fw-bolder m-0 lh-1">Contact Information</h3>
+                              <h3 class="fs-5 fw-bolder m-0 lh-1">Contacto</h3>
                             </div>
                             
                             <div class="row" id="profile-form">
                                 <!-- First Name-->
                                 <div class="col-sm-6">
                                   <div class="form-group">
-                                    <label for="name" class="form-label">First name</label>
+                                    <label for="name" class="form-label">Nombre</label>
                                     <input type="text" class="form-control" id="name" placeholder="" value="" required="">
                                   </div>
                                 </div>
@@ -93,7 +92,7 @@
                                 <!-- Last Name-->
                                 <div class="col-sm-6">
                                   <div class="form-group">
-                                    <label for="lastname" class="form-label">Last name</label>
+                                    <label for="lastname" class="form-label">Apellido</label>
                                     <input type="text" class="form-control" id="lastname" placeholder="" value="" required="">
                                   </div>
                                 </div>
@@ -101,7 +100,7 @@
                                 <!-- phone Number-->
                                 <div class="col-sm-12">
                                   <div class="form-group">
-                                    <label for="phone" class="form-label">Phone Number</label>
+                                    <label for="phone" class="form-label">Número de teléfono</label>
                                     <input type="text" class="form-control" id="phone" placeholder=" 54 9 11 5555 3333" value="" required="">
                                   </div>
                                 </div>
@@ -109,7 +108,7 @@
                                 <!-- Address-->
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                      <label for="phone" class="form-label">Address</label>
+                                      <label for="phone" class="form-label">Dirección</label>
                                       <input type="text" class="form-control" id="address" placeholder="Avenida 234, Rio Cuarto, Córdoba, Argentina" value="" required="">
                                     </div>
                                   </div>
@@ -117,7 +116,8 @@
 
                                 <div class="py-2">
                                   <div class="input-group mb-0 d-flex flex-row-reverse">
-                                      <button type="submit" class="btn btn-dark btn-sm px-4 py-3" id="submit-button">Update</button>
+                                      <button type="submit" class="btn btn-dark btn-sm px-4 py-3" id="submit-button">Guardar</button>    <!-- ACA MANDAR UN OK DESDE EL FRONT -->
+
                                   </div>
                               </div>
 
@@ -143,14 +143,15 @@
                         <div class="py-4 border-bottom">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <p class="m-0 fw-bold fs-5">Grand Total</p>
+                                    <p class="m-0 fw-bold fs-5">Total</p>
                                 </div>
                                 <p class="m-0 fs-5 fw-bold" id="cartTotal">$422.99</p>
                             </div>
                         </div>
                         <div class="py-4">
                           <div class="pb-5 d-flex justify-content-md-end align-items-center">
-                            <a href="#" class="btn btn-dark w-100 w-md-auto" role="button">Proceed to payment</a>
+                            <a href="#" class="btn btn-dark w-100 w-md-auto" role="button">Pagar con Mercado Pago</a> <!-- TODO:     anular si el total es cero -->
+
                           </div>    
                         </div>
                     </div>
@@ -251,7 +252,7 @@
                 cart = data.cart;
                 products = cart.products;
 
-                cartTotal.textContent = '$' + cart.total.toFixed(2);
+                cartTotal.textContent = '$' + cart.total;
 
                 let cartItemsHTML = '';  // Initialize an empty string to store the generated HTML
 
@@ -274,7 +275,7 @@
                                         <i class="ri-close-line ms-3" id="closeIcon-${product.id}"></i>
                                     </h6>
                                 </div>
-                                <p class="fw-bolder text-end text-muted m-0">$${product.subtotal.toFixed(2)}</p>
+                                <p class="fw-bolder text-end text-muted m-0">$${product.subtotal}</p>
                             </div>
                         </div>
                     <!-- / Cart Item-->

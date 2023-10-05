@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <!-- Head -->
 <head>
@@ -43,7 +43,7 @@
   </noscript>
 
   <!-- Page Title -->
-  <title>Ardu1na | e-commerce</title>
+  <title>E&J Computación | e-commerce</title>
 
 </head>
 <body class="">
@@ -88,7 +88,7 @@
                         <!-- Navbar Cart Icon-->
                         <li id="shopNav" class="ms-1 d-inline-block position-relative dropdown-cart">
                             <a href="./cart.html" class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body">
-                                Bag
+                                Carrito
                             </a>
                             
                             <div id="cartDropd" class="cart-dropdown dropdown-menu">
@@ -118,7 +118,7 @@
                               </li>
                               <li class="nav-item">
                                 <a class="nav-link" href="./category.html" role="button">
-                                  Products
+                                  Productos
                                 </a>
                               </li>
                              
@@ -294,7 +294,7 @@
                                 <div class="card-body px-0">
                                     <a class="add-product-link text-decoration-none " href="./product.html?product_id=${product.id}">${product.name}
                                     <small class="text-muted d-block">${product.description} </small>
-                                    <p class="mt-2 mb-0 small">$${product.price.toFixed(2)}</p></a>
+                                    <p class="mt-2 mb-0 small">$${product.price}</p></a>
                                 </div>
                             </div>
                     <!--/ Card Product-->
@@ -342,7 +342,7 @@
                                 <div class="card-body px-0">
                                     <a href="./product.html?product_id=${product.id}" class="add-product-link text-decoration-none ">${product.name}
                                     <small class="text-muted d-block">${product.description} </small>
-                                    <p class="mt-2 mb-0 small">$${product.price.toFixed(2)}</p></a>
+                                    <p class="mt-2 mb-0 small">$${product.price}</p></a>
                                 </div>
                             </div>
                     <!--/ Card Product-->
@@ -395,7 +395,7 @@
                                         ${product.product_name}
                                     </h6>
                                 </div>
-                                <p class="fw-bolder text-end text-muted m-0">$${product.subtotal.toFixed(2)}</p>
+                                <p class="fw-bolder text-end text-muted m-0">$${product.subtotal}</p>
                             </div>
                         </div>
                     `;
@@ -420,13 +420,13 @@
                         <div class="pt-3">
                             <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-start mb-4 mb-md-2">
                                 <div>
-                                    <p class="m-0 fw-bold fs-5">Grand Total</p>
+                                    <p class="m-0 fw-bold fs-5">Total</p>
                                 </div>
                                 <p class="m-0 fs-5 fw-bold">$${cart.total}</p>
                             </div>
                         </div>
                         <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button">View Cart</a>
-                        <a href="./checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button">Proceed To Checkout</a>
+                        <a href="./checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button">Finalizar compra</a>      <!-- TODO: SI EL CARRITO ES CERO NO PONER ESTE BOTÓN   -->
                     </div>
                     <!-- ... -->
                 `;

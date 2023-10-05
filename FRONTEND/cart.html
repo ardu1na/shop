@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 
 <!-- Head -->
 <head>
@@ -43,7 +43,7 @@
   </noscript>
 
   <!-- Page Title -->
-  <title>Ardu1na | e-commerce</title>
+  <title>E&J Computación | e-commerce</title>
 
 </head>
 <body class="">
@@ -65,13 +65,12 @@
                         <nav class="d-none d-md-block">
                             <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
                                 <li class="me-4"><a class="nav-link-checkout active"
-                                        href="./cart.html">Your Cart</a></li>
+                                        href="./cart.html">Carrito</a></li>
                                 <li class="me-4"><a class="nav-link-checkout "
-                                        href="./checkout.html">Information</a></li>
+                                        href="./checkout.html">Información</a></li>
                                 <li class="me-4"><a class="nav-link-checkout "
                                         href="./checkout-shipping.html">Shipping</a></li>
-                                <li><a class="nav-link-checkout nav-link-last "
-                                        href="./checkout-payment.html">Payment</a></li>
+                                
                             </ul>
                         </nav>                        
                         <div class="mt-5">
@@ -101,13 +100,13 @@
                         <div class="pb-4 border-bottom">
                             <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
                                 <div>
-                                    <p class="m-0 fw-bold fs-5">Grand Total</p>
+                                    <p class="m-0 fw-bold fs-5">Total</p>
                                 </div>
                                 <p class="m-0 fs-5 fw-bold" id="cartTotal">$422.99</p>
                             </div>
                         </div>
                         
-                        <a href="./checkout.html" class="btn btn-dark w-100 text-center py-4" role="button">Proceed to checkout</a>                    </div>
+                        <a href="./checkout.html" class="btn btn-dark w-100 text-center py-4" role="button">Finalizar compra</a>                    </div>
                 </div>
             </div>
         </div>
@@ -139,7 +138,7 @@
                 cart = data.cart;
                 products = cart.products;
 
-                cartTotal.textContent = '$' + cart.total.toFixed(2);
+                cartTotal.textContent = '$' + cart.total;
 
                 let cartItemsHTML = '';  // Initialize an empty string to store the generated HTML
 
@@ -167,7 +166,7 @@
                                 </h6>
                             </div>
                             <a href="./product.html?product_id=${product.product_id}">
-                                <p class="fw-bolder text-end text-muted m-0">$${product.subtotal.toFixed(2)}</p>
+                                <p class="fw-bolder text-end text-muted m-0">$${product.subtotal}</p>
                             </a>
                         </div>
                     </div>
