@@ -19,7 +19,6 @@ admin.site.register(Product, ProductAdmin)
 
 
 admin.site.register(Order)
-admin.site.register(ProductCart)
 
 
 admin.site.register(Category)

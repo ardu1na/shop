@@ -5,7 +5,7 @@ from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 
 class ModelBase(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="fecha de creación")
     date_updated = models.DateTimeField(auto_now=True, editable=False)
     
     class Meta:
@@ -26,19 +26,18 @@ class Category(ModelBase):
         
         
 class Product(ModelBase):
-    name = models.CharField(max_length=200)
-    description = models.CharField(max_length=3000)
+    name = models.CharField(max_length=200, verbose_name="nombre")
+    description = models.CharField(max_length=3000, verbose_name="descripción")
     
-    price = models.DecimalField(max_digits=15, decimal_places=2)
+    price = models.DecimalField(max_digits=15, decimal_places=2, verbose_name="precio")
     
-    brand = models.CharField(max_length=200, null=True, blank=True)
+    brand = models.CharField(max_length=200, null=True, blank=True, verbose_name="marca")
     
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', verbose_name="categoría")
 
-    image = models.ImageField(blank=True, null=True, upload_to="products")
-
+    image = models.ImageField(blank=True, null=True, upload_to="products", verbose_name="imagen")
     stock = models.PositiveSmallIntegerField(default=0, null=True, blank=True)
-    available = models.BooleanField(default=False)
+    available = models.BooleanField(default=False, verbose_name="disponible")
     
     
 
@@ -59,11 +58,11 @@ class Product(ModelBase):
     
 
 class Client(ModelBase):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client')
-    name = models.CharField(max_length=200, blank=True, null=True)
-    lastname = models.CharField(max_length=200, blank=True, null=True)
-    phone = models.CharField(max_length=200, blank=True, null=True)
-    address = models.CharField(max_length=750, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client', verbose_name="usuario")
+    name = models.CharField(max_length=200, blank=True, null=True, verbose_name="nombre")
+    lastname = models.CharField(max_length=200, blank=True, null=True, verbose_name="apellido")
+    phone = models.CharField(max_length=200, blank=True, null=True, verbose_name="teléfono")
+    address = models.CharField(max_length=750, null=True, blank=True, verbose_name="dirección")
 
     def __str__(self):
         if self.name and self.lastname:
@@ -100,10 +99,10 @@ def create_client_on_new_user(sender, instance, created, **kwargs):
     
     
 class Cart(ModelBase):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts')
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts', verbose_name="cliente")
     total = models.PositiveIntegerField(default=0, null=True, blank=True)
-    done = models.BooleanField(default=False)
-    products_q = models.SmallIntegerField(default=0, null=True, blank=True)
+    done = models.BooleanField(default=False, verbose_name="cerrado")
+    products_q = models.SmallIntegerField(default=0, null=True, blank=True, verbose_name="cantidad")
     
     def __str__(self):
         date_time = self.date_created.strftime('%H:%M %d/%m')
@@ -115,14 +114,13 @@ class Cart(ModelBase):
     
        
 class ProductCart(ModelBase):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='products')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='carts')
-    ammount = models.PositiveSmallIntegerField(default=1)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='products', verbose_name="carrito")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='carts', verbose_name="productos")
+    ammount = models.PositiveSmallIntegerField(default=1, verbose_name="cantidad")
     subtotal = models.IntegerField(default=0, null=True, blank=True)
 
 
     def __str__(self):
-        date_time = self.date_created.strftime('%H:%M %d/%m')
         return f'{self.product} ({self.ammount} u.) ${self.subtotal}'
         
     def clean(self):
@@ -158,13 +156,13 @@ def update_cart(sender, instance, **kwargs):
 
  
 class Order(ModelBase):   
-    cart = models.OneToOneField(Cart, related_name="order", on_delete=models.CASCADE)
+    cart = models.OneToOneField(Cart, related_name="order", on_delete=models.CASCADE, verbose_name="carrito")
     
-    paid = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False, verbose_name="pagado")
     
-    sended = models.BooleanField(default=False)
+    sended = models.BooleanField(default=False, verbose_name="enviado")
     
-    closed = models.BooleanField(default=False)
+    closed = models.BooleanField(default=False, verbose_name="cerrado")
     
     def save(self, *args, **kwargs):
         if self.paid and self.sended and not self.closed:
