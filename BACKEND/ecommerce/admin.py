@@ -11,17 +11,24 @@ admin.site.site_title = 'E&J'
 
 
 
+class ProductInline(admin.StackedInline):
+    model = Product
+    extra = 0
 
 class ProductAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     resource_class = ProductResource
+
 admin.site.register(Product, ProductAdmin)
 
 
 
 admin.site.register(Order)
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'name']
+    inlines = [ProductInline,]
 
-admin.site.register(Category)
+admin.site.register(Category, CategoryAdmin)
 
 
 admin.site.register(Client)
