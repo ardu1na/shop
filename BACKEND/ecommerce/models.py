@@ -14,6 +14,7 @@ class ModelBase(models.Model):
 class Category(ModelBase):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=3000, null=True, blank=True)
+    image = models.ImageField(blank=True, null=True, upload_to="categories", verbose_name="imagen")
 
     
     def __str__(self):
