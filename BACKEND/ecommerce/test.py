@@ -3,6 +3,52 @@ from django.contrib.auth.models import User
 from ecommerce.models import Category, Product, Client, Cart, ProductCart, Order
 from django.core.exceptions import ValidationError
 
+
+from rest_framework.test import APIClient
+from .serializers import (
+    ProductSerializer,
+    ClientSerializer,
+)
+
+class APISerializerTestCase(TestCase):
+    def setUp(self):
+        # Create a test user for this test case
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.client = APIClient()
+        self.client.login(username='testuser', password='testpassword')
+
+    def test_product_serializer(self):
+        category = Category.objects.create(name='Test Category')
+        product = Product.objects.create(name='Test Product', description='Description', price=10, category=category)
+        serializer = ProductSerializer(product)
+        expected_data = {
+            'id': product.id,
+            'name': 'Test Product',
+            'description': 'Description',
+            'price': '10.00',
+            'brand': None,
+            'category': category.id,
+            'category_name': 'Test Category',
+            'image': None,
+            'stock': 0,
+            'available': False,
+            'date_created': serializer.data['date_created'],  # Include only the relevant fields
+            'date_updated': serializer.data['date_updated'],  # Include only the relevant fields
+        }
+        self.assertEqual(serializer.data, expected_data)
+
+class ModelTestCase(TestCase):
+    def setUp(self):
+        # Create a test user for this test case
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        
+    def test_create_client_on_new_user(self):
+        # Ensure a Client is created when a User is created
+        self.assertTrue(Client.objects.filter(user=self.user).exists())
+
+
+
+
 class ModelTestCase(TestCase):
     def setUp(self):
         # Create a test user
