@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
-from .models import Category, Product, Client, Cart, ProductCart, Order
+from ecommerce.models import Category, Product, Client, Cart, ProductCart, Order
+from django.core.exceptions import ValidationError
 
 class ModelTestCase(TestCase):
     def setUp(self):
@@ -26,7 +27,13 @@ class ModelTestCase(TestCase):
         category = Category.objects.create(name='Test Category')
         product = Product.objects.create(name='Test Product', description='Description', price=10, category=category)
         cart = Cart.objects.create(client=self.user.client)
+        
+        # Decrease the stock to 1, so it's not exceeded by the ProductCart
+        product.stock = 1
+        product.save()
+        
         product_cart = ProductCart.objects.create(cart=cart, product=product, ammount=1)
+        
         # Check if the cart's total and products_q are updated correctly
         cart.refresh_from_db()
         self.assertEqual(cart.total, product.price)
