@@ -103,7 +103,7 @@ class Cart(ModelBase):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name='carts', verbose_name="cliente")
     total = models.PositiveIntegerField(default=0, null=True, blank=True)
     done = models.BooleanField(default=False, verbose_name="cerrado")
-    products_q = models.SmallIntegerField(default=0)
+    products_q = models.SmallIntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
         date_time = self.date_created.strftime('%H:%M %d/%m')
