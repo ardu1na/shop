@@ -11,11 +11,6 @@ Content-Type: application/json
 { "username": "admin", "password": "admin" }
 
 ###
-
-GET http://127.0.0.1:8000/test_token 
-Content-Type: application/json
-Authorization: token 66f047842a322a776de6cc52afe0de60e791bd54
-
 ###
 
 POST   http://127.0.0.1:8000/api/shop/cart/add/8/
@@ -47,15 +42,6 @@ Content-Type: application/json
 Authorization: token e724b5ea8a20913039415af1cb79760e9a05e3b3
 
 
-
-
-###
-
-POST   http://127.0.0.1:8000/api/shop/profile/location/
-Content-Type: application/json
-Authorization: token 66f047842a322a776de6cc52afe0de60e791bd54
-
-{ "address": "holddasdfasa", "address_number": "2343", "apartament": "h", "country": "hola", "state": "jelouki", "city": "helcom", "post_code": "3423"}
 
 
 

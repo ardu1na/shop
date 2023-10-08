@@ -13,16 +13,6 @@ from rest_framework.authtoken.models import Token
 from users.serializers import UserSerializer
 
 
-## TODO ##
-# view for restore password
-# signup with email confirmation
-
-
-# delete session when user is off after certain ammout of time ---
-# Token has a datetime field named 'created' 
-# so i can use cronjobs to check and delete token after certain amount of time  
-# but what about session, what if we delete token when user is using it? -as cloudflare does haha -
-
 
 
 
@@ -75,10 +65,3 @@ class LogoutView(APIView):
 
 
 
-
-
-@api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def test_token(request):
-    return Response({"valid": True})  

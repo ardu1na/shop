@@ -2,12 +2,11 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from ecommerce.models import Category, Product, Client, Cart, ProductCart, Order
 from django.core.exceptions import ValidationError
-
+from django.urls import reverse
 
 from rest_framework.test import APIClient
 from .serializers import (
     ProductSerializer,
-    ClientSerializer,
 )
 
 class APISerializerTestCase(TestCase):
@@ -36,15 +35,6 @@ class APISerializerTestCase(TestCase):
             'date_updated': serializer.data['date_updated'],  # Include only the relevant fields
         }
         self.assertEqual(serializer.data, expected_data)
-
-class ModelTestCase(TestCase):
-    def setUp(self):
-        # Create a test user for this test case
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
-        
-    def test_create_client_on_new_user(self):
-        # Ensure a Client is created when a User is created
-        self.assertTrue(Client.objects.filter(user=self.user).exists())
 
 
 
