@@ -574,11 +574,28 @@
                               <p class="m-0 fs-5 fw-bold">$${cart.total}</p>
                           </div>
                       </div>
-                      <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button">Ver Carrito</a>
-                      <a href="./checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button">Finalizar compra</a>      <!-- TODO: SI EL CARRITO ES CERO NO PONER ESTE BOTÓN   -->
-                  </div>
+                      <!-- Ver Carrito Button -->
+                      <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button" id="ver-carrito-button">Ver Carrito</a>
+
+                      <!-- Finalizar compra Button -->
+                      <a href="./checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button" id="finalizar-compra-button">Finalizar compra</a>
+
                   <!-- ... -->
               `;
+
+
+              if (cart.products_q === 0) {
+                // Cart is empty, hide the buttons
+                document.getElementById('ver-carrito-button').style.display = 'none';
+                document.getElementById('finalizar-compra-button').style.display = 'none';
+            } else {
+                // Cart is not empty, show the buttons
+                document.getElementById('ver-carrito-button').style.display = 'block';
+                document.getElementById('finalizar-compra-button').style.display = 'block';
+            }
+
+
+
           })
           .catch(error => {
               console.error('Error fetching data:', error);
