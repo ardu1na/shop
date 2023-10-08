@@ -66,9 +66,7 @@
                             <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
                                 <li class="me-4"><a class="nav-link-checkout active"
                                         href="./cart.html">Carrito</a></li>
-                                <li class="me-4"><a class="nav-link-checkout "
-                                        href="./checkout.html">Información</a></li>
-                                
+                               
                             </ul>
                         </nav>                        
                         <div class="mt-5">
@@ -79,13 +77,18 @@
 
 
                                     <!-- Cart Items-->
-
                                         
 
                                     <!-- / Cart Items-->
 
                                     </tbody>
                                 </table>
+
+                                <div id="noProductsMessage" class="text-center text-muted mt-4" style="display: none;">
+                                    Aún no has añadido ningún producto.
+                                </div>
+
+
                             </div>
                         </div>
 
@@ -104,7 +107,7 @@
                             </div>
                         </div>
                         
-                        <a href="./checkout.html" class="btn btn-dark w-100 text-center py-4" role="button">Finalizar compra</a>                    </div>
+                        <a href="./checkout.html" class="btn btn-dark w-100 text-center py-4" role="button" id="finalizarCompraBtn">Finalizar compra</a>                    </div>
                 </div>
             </div>
         </div>
@@ -121,6 +124,9 @@
         const token = localStorage.getItem('token');
         const cartTable = document.getElementById('cartTable');
         const cartTotal= document.getElementById('cartTotal');
+       
+        const finalizarCompraBtn = document.getElementById('finalizarCompraBtn'); // Get the button by ID
+        const noProductsMessage = document.getElementById('noProductsMessage'); // Get the message element by ID
 
         let cart = {}; 
 
@@ -203,11 +209,25 @@
                     location.reload();
 
                 })
+
+                
                 .catch(error => {
                     console.error('Error deleting product:', error);
                 });
             }
+
+            if (cart.items_count === 0 || cart.total === 0) {
+                finalizarCompraBtn.style.display = 'none';
+            }
+
+            if (products.length === 0) {
+                noProductsMessage.style.display = 'block';
+            }
+
+
             })
+
+
             .catch(error => {
                 console.error('Error fetching data:', error);
             });

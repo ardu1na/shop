@@ -293,9 +293,11 @@
                                     </a>
                                         
                                 </div>
-                                <button data-product-id="${product.id}" class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
+                                <button data-product-id="${product.id}" class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Añadir al carro</button>
 
                                 <div class="card-body px-0">
+                                    <div id="add-to-cart-success" class="alert alert-success mt-2" style="display: none;">Producto añadido con éxito</div>
+
                                     <a class="add-product-link text-decoration-none " href="./product.html?product_id=${product.id}">${product.name}
                                     <small class="text-muted d-block">${product.description} </small>
                                     <p class="mt-2 mb-0 small">$${product.price}</p></a>
@@ -341,9 +343,11 @@
                                 </div>
 
 
-                                <button data-product-id="${product.id}" class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Quick Add</button>
+                                <button data-product-id="${product.id}" class="btn btn-quick-add"><i class="ri-add-line me-2"></i> Añadir al carro</button>
 
                                 <div class="card-body px-0">
+                                    <div id="add-to-cart-success" class="alert alert-success mt-2" style="display: none;">Producto añadido con éxito</div>
+
                                     <a href="./product.html?product_id=${product.id}" class="add-product-link text-decoration-none ">${product.name}
                                     <small class="text-muted d-block">${product.description} </small>
                                     <p class="mt-2 mb-0 small">$${product.price}</p></a>
@@ -494,6 +498,11 @@
                     console.log('Product added to cart:', data);
                     location.reload();
 
+                 // Show the success message
+                    const successMessage = document.getElementById('add-to-cart-success');
+                    successMessage.style.display = 'block';
+
+                    
                 })
                 .catch(error => {
                     console.error('Error adding product to cart:', error);
