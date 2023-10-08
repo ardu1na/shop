@@ -25,7 +25,7 @@ from ecommerce.serializers import \
 
 @api_view(['GET'])
 def products(request):
-    products = Product.objects.all()  
+    products = Product.objects.filter(available=True)  
     serializer = ProductSerializer(products, many=True)  
     return Response(serializer.data)  
 
@@ -42,7 +42,7 @@ def product_detail(request, product_id):
 
 @api_view(['GET'])
 def categories(request):
-    categories = Category.objects.all()  
+    categories = [category for category in Category.objects.all() if category.products.filter(available=True).exists()]
     serializer = CategorySerializer(categories, many=True)  
     return Response(serializer.data) 
 

@@ -263,14 +263,16 @@
 
             function populateCategoryDetail(category) {
                 const categoryTitleElement = document.getElementById('category-title');
-    
+                const categoryBanner = document.querySelector('.bg-img-cover');
+
                 const categoryTitle2Element = document.getElementById('category-title2');
                 const categoryTitle3Element = document.getElementById('category-title3');
                 const productsContainer = document.getElementById('products-container'); 
                 const categoryDescriptionElement = document.getElementById('category-description');
     
                 categoryTitle2Element.textContent = category.name;
-    
+                categoryBanner.style.backgroundImage = `url(${apiBaseUrl}/${category.image})`;
+
                 categoryTitle3Element.textContent = category.name;
                 categoryTitleElement.textContent = category.name;
     
@@ -427,7 +429,7 @@
                                 <p class="m-0 fs-5 fw-bold">$${cart.total}</p>
                             </div>
                         </div>
-                        <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button">View Cart</a>
+                        <a href="./cart.html" class="btn btn-outline-dark w-100 text-center mt-4" role="button">Ver Carrito</a>
                         <a href="./checkout.html" class="btn btn-dark w-100 text-center mt-2" role="button">Finalizar compra</a>      <!-- TODO: SI EL CARRITO ES CERO NO PONER ESTE BOTÓN   -->
                     </div>
                     <!-- ... -->
