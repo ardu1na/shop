@@ -1,9 +1,5 @@
-#### TODO: details on FE. add qantity into product
 
-
-
-
-#### SETUP
+#### INSTALACIÓN
 
 
 #### crear entorno virtual (1° vez):

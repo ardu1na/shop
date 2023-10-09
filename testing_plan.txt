@@ -1,0 +1,134 @@
+# Plan de Testing para la Aplicación de E-commerce
+
+## Introducción
+Este documento describe el plan de testing para la aplicación de E-commerce desarrollada en Django. El objetivo es asegurarse de que todas las funcionalidades de la aplicación funcionen correctamente y cumplan con los requisitos establecidos.
+
+## Alcance del Testing
+El testing se centrará en las siguientes áreas clave de la aplicación:
+1. Serialización de API
+2. Modelos de la Base de Datos
+3. Endpoints de la API
+4. Autenticación y Token
+
+## Pruebas de Serialización de API
+Se probará que la serialización de la API funcione correctamente utilizando un conjunto de datos de prueba. Para ello, se utilizarán las siguientes pruebas:
+- Prueba de serialización de productos: Verificar que la serialización de productos genere datos esperados.
+
+## Pruebas de Modelos de la Base de Datos
+Se probarán los modelos de la base de datos para asegurarse de que las interacciones y señales funcionen correctamente. Las pruebas incluirán:
+- Creación automática de clientes: Verificar que se cree un cliente automáticamente cuando se crea un nuevo usuario.
+- Validación de ProductCart: Verificar que se genere una excepción si se intenta agregar un producto con una cantidad mayor al stock disponible.
+- Actualización de señal de carrito: Verificar que la señal de actualización de carrito calcule correctamente el total y la cantidad de productos en el carrito.
+- Creación automática de orden: Verificar que se cree automáticamente una orden cuando se marca un carrito como "cerrado".
+
+## Pruebas de Endpoints de la API
+Se probarán los endpoints de la API para asegurarse de que funcionen correctamente. Las pruebas incluirán:
+- Prueba de registro de usuario: Verificar que se pueda registrar un nuevo usuario correctamente.
+- Prueba de inicio de sesión de usuario: Verificar que un usuario pueda iniciar sesión correctamente.
+- Prueba de agregar producto al carrito: Verificar que se pueda agregar un producto al carrito correctamente.
+- Prueba de eliminar producto del carrito: Verificar que se pueda eliminar un producto del carrito correctamente.
+- Prueba de obtener detalles del carrito: Verificar que se puedan obtener los detalles del carrito correctamente.
+- Prueba de obtener perfil de cliente: Verificar que se pueda obtener el perfil de cliente correctamente.
+- Prueba de obtener detalles de un producto: Verificar que se puedan obtener los detalles de un producto correctamente.
+
+## Pruebas de Autenticación y Token
+Se probará la autenticación y el manejo de tokens en la aplicación. Las pruebas incluirán:
+- Prueba de registro de usuario y obtención de token.
+- Prueba de inicio de sesión de usuario y obtención de token.
+- Prueba de cierre de sesión de usuario y revocación del token.
+
+## Escenarios de Prueba
+Se ejecutarán los siguientes escenarios de prueba:
+1. Registro de un nuevo usuario.
+2. Inicio de sesión de un usuario registrado.
+3. Agregar un producto al carrito.
+4. Eliminar un producto del carrito.
+5. Obtener detalles del carrito.
+6. Obtener perfil de cliente.
+7. Obtener detalles de un producto.
+8. Obtener un token de autenticación.
+9. Cerrar sesión de usuario y revocar el token.
+
+## Plan de Ejecución
+Se ejecutarán todas las pruebas mencionadas en un entorno de desarrollo local utilizando la base de datos de prueba de Django. Se utilizarán bibliotecas de pruebas de Django y Django Rest Framework para automatizar las pruebas.
+
+## Conclusiones y Resultados
+Después de completar todas las pruebas, se evaluarán los resultados y se documentarán los problemas identificados, si los hubiera. Se corregirán los problemas y se realizarán pruebas adicionales según sea necesario.
+
+
+
+
+Plan de Pruebas del Frontend con Google Chrome DevTools
+
+Paso 1: Verificación de Errores de Consola
+
+Verificaremos la consola de desarrolladores de Google Chrome para buscar errores en el frontend.
+Abriremos Google Chrome.
+Accederemos a la página web o aplicación que se va a probar.
+Presionaremos F12 o haremos clic derecho en la página y seleccionaremos "Inspeccionar" o "Inspect" para abrir DevTools.
+Navegaremos a la pestaña "Console" o "Consola".
+Buscaremos errores de JavaScript, recursos no encontrados u otros problemas relacionados con el frontend.
+Documentaremos cualquier error encontrado y su ubicación en el código.
+Paso 2: Pruebas de Rendimiento
+
+Realizaremos pruebas de rendimiento para evaluar la velocidad de carga de la página.
+En DevTools, iremos a la pestaña "Performance" o "Rendimiento".
+Registraremos una grabación de la actividad en la página haciendo clic en el botón "Grabar" o "Record".
+Detendremos la grabación después de unos segundos.
+Analizaremos los resultados para identificar áreas de mejora en términos de velocidad de carga y rendimiento general.
+Realizaremos pruebas de carga para evaluar la velocidad de la página bajo diferentes condiciones de carga.
+Paso 3: Auditoría de la Página
+
+Utilizaremos la función "Auditoría" en DevTools para evaluar diferentes aspectos de la página.
+Seleccionaremos las categorías de auditoría, como el rendimiento, la accesibilidad, las mejores prácticas y la SEO.
+Haremos clic en el botón "Run audits" o "Ejecutar auditorías" para iniciar la auditoría.
+Seguiremos las recomendaciones proporcionadas para mejorar la página según los resultados de la auditoría.
+Paso 4: Depuración de JavaScript
+
+Realizaremos pruebas de depuración de JavaScript para identificar y solucionar problemas en el código.
+Navegaremos a la pestaña "Sources" o "Fuentes" en DevTools.
+Utilizaremos las herramientas de depuración de JavaScript para rastrear el flujo de ejecución y los valores de las variables.
+Colocaremos puntos de interrupción (breakpoints) en el código para inspeccionar el comportamiento del código JavaScript.
+Realizaremos pruebas de unidad para asegurarnos de que las funciones JavaScript funcionen correctamente.
+Paso 5: Inspección de Elementos
+
+Inspeccionaremos los elementos en la página para verificar su correcta visualización.
+Navegaremos a la pestaña "Elements" o "Elementos" en DevTools.
+Comprobaremos que los elementos se muestren correctamente y que los estilos CSS se apliquen adecuadamente.
+Realizaremos pruebas de diseño para diferentes tamaños de pantalla y resoluciones.
+Paso 6: Depuración de Red
+
+Depuraremos la red para identificar problemas de carga de recursos y solicitudes HTTP.
+Navegaremos a la pestaña "Network" o "Red" en DevTools.
+Inspeccionaremos las solicitudes y respuestas de red para asegurarnos de que se realicen correctamente.
+Identificaremos cualquier solicitud con tiempos de respuesta excesivos o problemas de red.
+Paso 7: Pruebas de Compatibilidad de Navegadores
+
+Realizaremos pruebas de compatibilidad para garantizar que la página funcione en diferentes navegadores y dispositivos.
+Utilizaremos las herramientas de DevTools para emular diferentes navegadores y verificar la compatibilidad.
+Paso 8: Pruebas de Accesibilidad
+
+Ejecutaremos pruebas de accesibilidad para asegurarnos de que la página cumpla con las pautas de accesibilidad WCAG.
+Activaremos la opción de "Accessibility" o "Accesibilidad" en DevTools.
+Ejecutaremos una auditoría de accesibilidad y corregiremos los problemas encontrados.
+Paso 9: Registro y Documentación
+
+Registraremos y documentaremos todos los problemas, errores y observaciones encontrados durante las pruebas.
+Proporcionaremos detalles sobre la ubicación y la gravedad de los problemas para su corrección.
+Paso 10: Validación de Requisitos Funcionales
+
+Validaremos que la funcionalidad del frontend cumpla con los requisitos especificados en la documentación del proyecto.
+Comprobaremos que todas las funciones principales funcionen según lo previsto.
+Paso 11: Pruebas de Integración con Backend
+
+Realizaremos pruebas para asegurarnos de que la comunicación entre el frontend y el backend sea correcta y que los datos se transmitan adecuadamente.
+Paso 12: Pruebas de Actualización y Despliegue
+
+Realizaremos pruebas en un entorno de prueba antes de desplegar cambios en producción para evitar problemas en el sitio en vivo.
+Verificaremos que las actualizaciones se realicen correctamente y que no haya regresiones en la funcionalidad existente.
+Paso 13: Pruebas de Interacción con Usuario
+
+Verificaremos la interacción con el usuario, como clics en botones, llenado de formularios y navegación por la página, para asegurarnos de que la experiencia del usuario sea satisfactoria.
+Paso 14: Pruebas de Seguridad
+
+Realizaremos pruebas de seguridad para identificar posibles vulnerabilidades, como ataques de inyección de código o exposición de datos sensibles.

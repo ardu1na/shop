@@ -1,0 +1,74 @@
+Manual de Usuario para el Usuario Final
+¡Bienvenido al sistema de comercio electrónico! Este manual proporciona una guía sobre cómo utilizar la aplicación para realizar compras y administrar tu perfil de usuario. A continuación, encontrarás instrucciones detalladas sobre las principales funcionalidades disponibles.
+
+Contenido
+Explorar Productos y Categorías
+
+Consultar la lista de productos disponibles.
+Ver detalles de un producto específico.
+Explorar las categorías de productos.
+Gestión del Perfil de Cliente
+
+Ver tu perfil de cliente.
+Actualizar tu perfil de cliente.
+Carrito de Compras y Compras
+
+Agregar productos al carrito de compras.
+Eliminar productos del carrito de compras.
+Consultar el detalle del carrito de compras.
+1. Explorar Productos y Categorías
+Consultar la Lista de Productos Disponibles
+Para ver la lista de productos disponibles, selecciona "Productos" en la barra de navegación.
+Verás una lista de productos con sus nombres, precios y descripciones.
+Puedes explorar los productos y decidir cuáles deseas comprar.
+Ver Detalles de un Producto Específico
+Si deseas obtener más información sobre un producto en particular, selecciona ese producto en la lista de productos.
+Verás una página de detalles con información completa sobre el producto, incluyendo su descripción y precio.
+Puedes decidir agregar el producto a tu carrito de compras desde esta página.
+Explorar las Categorías de Productos
+Para buscar productos específicos por categoría, selecciona "Categorías" en la barra de navegación.
+Verás una lista de categorías que agrupan productos relacionados.
+Al seleccionar una categoría, verás los productos disponibles en esa categoría.
+2. Gestión del Perfil de Cliente
+Ver tu Perfil de Cliente
+Para ver tu perfil de cliente, selecciona "Perfil" en la barra de navegación.
+Verás información sobre tu nombre, apellido, teléfono y dirección registrados.
+También puedes ver tu dirección de correo electrónico asociada a tu cuenta.
+Actualizar tu Perfil de Cliente
+Si deseas actualizar la información de tu perfil, selecciona "Editar Perfil" en la página de tu perfil.
+Se te pedirá que ingreses la información actualizada, como tu nombre, apellido, teléfono y dirección.
+Después de realizar los cambios, selecciona "Guardar Cambios" para actualizar tu perfil.
+3. Carrito de Compras y Compras
+Agregar Productos al Carrito de Compras
+Para agregar productos a tu carrito de compras, selecciona un producto en la lista de productos.
+En la página de detalles del producto, selecciona "Agregar al Carrito".
+El producto se agregará automáticamente a tu carrito de compras y podrás verlo en la página del carrito.
+Eliminar Productos del Carrito de Compras
+Si deseas eliminar un producto de tu carrito de compras, ve a la página del carrito de compras seleccionando "Carrito" en la barra de navegación.
+Verás la lista de productos en tu carrito.
+Selecciona "Eliminar" junto al producto que deseas eliminar.
+El producto se eliminará del carrito de compras.
+Consultar el Detalle del Carrito de Compras
+Para consultar el detalle de tu carrito de compras, selecciona "Carrito" en la barra de navegación.
+Verás la lista de productos en tu carrito junto con sus cantidades y precios.
+Puedes verificar el total de tu compra en esta página antes de proceder al pago.
+4. Registro, Inicio de Sesión y Cierre de Sesión
+Registro de Nueva Cuenta (Signup)
+Si eres un usuario nuevo y deseas crear una cuenta en la aplicación, selecciona "Registrarse" en la barra de navegación.
+Selecciona "Registrarse" nuevamente en la página de registro.
+Completa los campos obligatorios, como nombre de usuario, correo electrónico y contraseña.
+Asegúrate de proporcionar información válida y que no haya sido registrada previamente por otro usuario.
+Después de completar el formulario, selecciona "Registrarse" para crear tu cuenta.
+Nota:
+Si el nombre de usuario o el correo electrónico que ingresaste ya están en uso, recibirás un mensaje de error y deberás elegir un nombre de usuario o correo electrónico diferente.
+Inicio de Sesión (Login)
+Si ya tienes una cuenta, puedes iniciar sesión seleccionando "Iniciar Sesión" en la barra de navegación.
+Ingresa tu nombre de usuario y contraseña en el formulario de inicio de sesión.
+Después de completar los campos requeridos, selecciona "Iniciar Sesión" para acceder a tu cuenta.
+Nota:
+Si ingresaste las credenciales incorrectas, recibirás un mensaje de error. Verifica que hayas ingresado la información correcta.
+Cierre de Sesión (Logout)
+Si deseas cerrar sesión en tu cuenta, selecciona "Cerrar Sesión" en la barra de navegación.
+Serás redirigido a una página que confirma que has cerrado sesión con éxito.
+Ahora puedes cerrar el navegador o salir de la aplicación de forma segura.
+¡Gracias por usar nuestro servicio! Si tienes alguna pregunta o necesitas asistencia adicional, no dudes en contactarnos.

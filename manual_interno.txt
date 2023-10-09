@@ -1,0 +1,71 @@
+Manual de Uso para el Administrador del E-commerce
+Introducción
+Este manual tiene como objetivo proporcionar una guía detallada sobre cómo utilizar y administrar el sistema de comercio electrónico desarrollado en Django. La aplicación incluye modelos clave, como Category, Product, Client, Cart, ProductCart, y Order, que permiten gestionar productos, clientes, carritos de compras y órdenes de compra. A continuación, se describen las funcionalidades de cada modelo y cómo administrarlas.
+
+Modelos Principales
+1. Categorías (Category)
+Las categorías se utilizan para organizar los productos en grupos relacionados.
+
+Funcionalidades:
+Crear una nueva categoría.
+Editar detalles de una categoría existente.
+Asignar una imagen representativa a una categoría.
+2. Productos (Product)
+Los productos representan los artículos que los clientes pueden comprar.
+
+Funcionalidades:
+Crear un nuevo producto.
+Editar detalles de un producto existente.
+Establecer el precio, descripción, marca, stock y disponibilidad de un producto.
+Asociar un producto a una categoría.
+Asociar una imagen al producto.
+3. Clientes (Client)
+Los clientes son usuarios registrados en el sistema.
+
+Funcionalidades:
+Crear un nuevo cliente (asociado a un usuario).
+Editar detalles de un cliente existente.
+Agregar nombre, apellido, teléfono y dirección a un cliente.
+4. Carritos de Compras (Cart)
+Los carritos de compras son utilizados para gestionar los productos que un cliente desea comprar.
+
+Funcionalidades:
+Visualizar carritos de compras de clientes.
+Marcar un carrito de compras como "cerrado".
+Calcular el total de un carrito de compras en función de los productos y cantidades seleccionados.
+Asociar un cliente a un carrito de compras.
+Ver la lista de productos en un carrito de compras.
+5. Productos en Carrito (ProductCart)
+Los productos en carrito representan los productos específicos que un cliente ha agregado a su carrito de compras.
+
+Funcionalidades:
+Agregar productos a un carrito de compras.
+Establecer la cantidad de productos en el carrito.
+Validar que la cantidad solicitada no exceda el stock disponible.
+Calcular el subtotal de un producto en función de la cantidad y el precio unitario.
+6. Órdenes de Compra (Order)
+Las órdenes de compra representan los pedidos realizados por los clientes.
+
+Funcionalidades:
+Crear una orden de compra a partir de un carrito de compras cerrado.
+Marcar una orden como "pagada" y "enviada".
+Disminuir el stock de productos disponibles cuando se crea una orden.
+Instrucciones de Uso
+A continuación, se presentan instrucciones generales sobre cómo administrar cada uno de los modelos mencionados anteriormente utilizando el administrador de Django:
+
+Inicie sesión en el panel de administración de Django utilizando sus credenciales de administrador.
+
+Navegue a las secciones correspondientes para administrar los diferentes modelos:
+
+Categorías (Category): Puede agregar, editar o eliminar categorías para organizar sus productos.
+Productos (Product): Agregue nuevos productos, configure detalles como precio y disponibilidad, y asócielos a categorías.
+Clientes (Client): Administre la información de sus clientes registrados.
+Carritos de Compras (Cart): Vea los carritos de compras de sus clientes y marquelos como "cerrados".
+Productos en Carrito (ProductCart): Supervise los productos que los clientes han agregado a sus carritos y verifique la cantidad disponible.
+Órdenes de Compra (Order): Administre las órdenes de compra, marque las órdenes como "pagadas" y "enviadas", y realice un seguimiento de los productos vendidos.
+Notas Adicionales
+El sistema utiliza señales (signals) para realizar acciones automáticas, como la creación de un cliente cuando se registra un nuevo usuario o la actualización del carrito y el stock cuando se agregan o eliminan productos.
+
+Este manual proporciona una visión general de cómo utilizar y administrar su aplicación de comercio electrónico basada en Django. Para obtener más detalles sobre las funcionalidades específicas o personalizaciones adicionales, consulte el código fuente y la documentación de Django.
+
+Recuerde que la correcta administración de los datos es esencial para mantener su aplicación de comercio electrónico funcionando sin problemas y satisfaciendo las necesidades de sus clientes. ¡Buena suerte con su negocio en línea!
